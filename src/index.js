@@ -11,15 +11,23 @@ import './app.tag';
 
 // Add the stores
 ////////////////////////////////////////////////////////
-import ItemStore 					from './stores/itemstore.js';
-RiotControl.addStore(new ItemStore());
-
 import RiotControlDispatcherStore 	from './stores/RiotControlDispatcherStore.js';
 RiotControl.addStore(new RiotControlDispatcherStore());
 
 import RouteStore 	from './stores/RouteStore.js';
 RiotControl.addStore(new RouteStore());
 
+import FetchStore 					from './stores/fetch-store.js';
+RiotControl.addStore(new FetchStore());
+
+import LocalStorageStore         	from './stores/localstorage-store.js';
+RiotControl.addStore(new LocalStorageStore());
+
+import ItemStore 					from './stores/itemstore.js';
+RiotControl.addStore(new ItemStore());
+
+import TypicodeUserStore 			from './stores/typicode-user-store.js';
+RiotControl.addStore(new TypicodeUserStore());
 
 riot.mount('app');
 // put Router Last

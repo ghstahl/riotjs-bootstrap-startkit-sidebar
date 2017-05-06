@@ -24,15 +24,17 @@ import './components/sidebar.tag';
 
  	self.on('mount', () => {
       console.log('app mount');
-      riot.control.on(riot.EVT.finalMount,self.onFinalMount);
+      riot.control.on(riot.EVT.appMount,self.onAppMount);
+      riot.control.trigger('app-mount');
     });
     self.on('unmount', () => {
       console.log('app unmount')
-      riot.control.off(riot.EVT.finalMount,self.onFinalMount);
+      riot.control.off(riot.EVT.appMount,self.onAppMount);
+      riot.control.trigger('app-unmount');
     });
 
-    self.onFinalMount = (data) =>{
-      console.log('app '+ riot.EVT.finalMount + ' ' + data)
+    self.onAppMount = () =>{
+      console.log('app '+ riot.EVT.appMount)
     }
 
 </script>
