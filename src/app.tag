@@ -1,8 +1,10 @@
 
 import './components/header.tag';
 import './components/sidebar.tag';
+import './components/loading-indicator.tag';
 
 <app>
+<loading-indicator></loading-indicator>
 <header></header>
 <div class="container">
   <div class="row">

@@ -11,14 +11,17 @@ import './app.tag';
 
 // Add the stores
 ////////////////////////////////////////////////////////
+import RouteStore 					from './stores/RouteStore.js';
+RiotControl.addStore(new RouteStore());
+
 import RiotControlDispatcherStore 	from './stores/RiotControlDispatcherStore.js';
 RiotControl.addStore(new RiotControlDispatcherStore());
 
-import RouteStore 	from './stores/RouteStore.js';
-RiotControl.addStore(new RouteStore());
-
 import FetchStore 					from './stores/fetch-store.js';
 RiotControl.addStore(new FetchStore());
+
+import ProgressStore            	from './stores/progress-store.js';
+RiotControl.addStore(new ProgressStore());
 
 import LocalStorageStore         	from './stores/localstorage-store.js';
 RiotControl.addStore(new LocalStorageStore());
