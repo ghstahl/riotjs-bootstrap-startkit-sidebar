@@ -1,8 +1,10 @@
 <projects>
   
 <h2>Projects</h2>
-<a 	onclick={this.loadMyComponentsSPA} 
-	class="btn btn-default btn-lg btn-block">Load My Component SPA</a>
+	<a 	onclick={this.loadMyComponentsSPA} 
+		class="btn btn-default btn-lg btn-block">Load My Component SPA</a>
+	<a 	onclick={this.unloadMyComponentsSPA} 
+		class="btn btn-default btn-lg btn-block">Unload My Component SPA</a>
 <p>
 	{this.resultText}
 </p>
@@ -40,6 +42,9 @@
   	
   	self.loadMyComponentsSPA = () => {
 		riot.control.trigger('load-external-jscss',self._componentPath,'js');
+  	};
+  	self.unloadMyComponentsSPA = () => {
+  		riot.control.trigger('riot-contol-remove-store','typicode-user-store');
   	};
 </script>
 </projects>

@@ -21,6 +21,9 @@ riot.control.addStore(new RouteStore());
 import DynamicJsCssLoaderStore 		from './stores/dynamic-jscss-loader-store.js';
 riot.control.addStore(new DynamicJsCssLoaderStore());
 
+import PluginRegistrationStore 		from './stores/plugin-registration-store.js';
+riot.control.addStore(new PluginRegistrationStore());
+
 import RiotControlDispatcherStore 	from './stores/RiotControlDispatcherStore.js';
 riot.control.addStore(new RiotControlDispatcherStore());
 

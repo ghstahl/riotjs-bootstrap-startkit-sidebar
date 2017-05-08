@@ -5,9 +5,20 @@ import TypicodeUserStore 			from 	'./stores/typicode-user-store.js';
 import 										'./pages/my-component-page.tag';
 import 										'./pages/typicode-user-detail.tag';
 
-riot.control.trigger('riot-contol-add-store',new TypicodeUserStore());
-riot.control.trigger('typicode-init');
-riot.control.trigger('riot-route-add-view','my-component-page');
-riot.control.trigger('riot-route-add-view','typicode-user-detail');
+var registerRecord = {
+	name:'riotjs-partial-spa',
+	views:[
+		{view:'my-component-page'},
+		{view:'typicode-user-detail'}
+	],
+	stores:[
+		{store: new TypicodeUserStore()}
+	],
+	postLoadEvents:[
+		{event:'typicode-init',data:{}}
+	]
+};
+riot.control.trigger('plugin-registration',registerRecord);
+
 
 
