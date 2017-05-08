@@ -12,16 +12,39 @@ riot.routeState = {
 class Router{
 
   constructor(){
-    this._currentView = null;
-    this._views = ['home', 'projects','typicode-users'];
-    this._defaultView = 'home';
     
+    this._initializeViewSet();
     riot.route(this._handleRoute.bind(this));
     riot.route.exec(this._handleRoute.bind(this));
   }
+  
 
-  _handleRoute(view){
+  addView(view){
+    var s = this._viewsSet;
+    s.add(view);
+    this._views = Array.from(s);
+  }
+  removeView(view){
+    var s = this._viewsSet;
+    s.delete(view);
+    this._views = Array.from(s);
+  }
+  _initializeViewSet(){
+    this._viewsSet = new Set();
+    this._currentView = null;
+    this._views = [];
+    this._defaultView = 'home';
 
+    var s = this._viewsSet;
+    s.add('home');
+    s.add('projects');
+    s.add('typicode-users');
+    this._views = Array.from(s);
+  }
+  _handleRoute( ){
+
+    var view = arguments[0];
+     
     // load default view, if view is not in views list
     if(this._views.indexOf(view) === -1){
       return riot.route(this._defaultView);

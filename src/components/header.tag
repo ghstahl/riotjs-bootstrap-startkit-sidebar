@@ -34,8 +34,7 @@
 
   self.navItems = [
     { title : 'Home', view : 'home'},
-    { title : 'Projects', view : 'projects' },
-    { title : 'Type-iCode Users', view : 'typicode-users' }
+    { title : 'Projects', view : 'projects' }
   ];
 
   self.on('mount', () => {

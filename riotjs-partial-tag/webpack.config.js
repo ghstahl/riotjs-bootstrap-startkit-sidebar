@@ -17,15 +17,7 @@ module.exports = {
   devtool: 'eval',
   debug: true,
   plugins: [
-    new webpack.ProvidePlugin({
-      riot: 'riot' 
-
-    }),
-    new webpack.ProvidePlugin({
-      $: "jquery",
-      jQuery: "jquery",
-      "window.jQuery": "jquery"
-    })
+    
   ],
   module: {
     preLoaders: [{

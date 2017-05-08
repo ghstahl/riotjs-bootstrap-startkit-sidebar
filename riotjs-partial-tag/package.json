@@ -4,17 +4,16 @@
   "description": "A Riot - PostCSS - Webpack startkit with bootstrap defaults",
   "main": "webpack.config.js",
   "scripts": {
-    "html": "cpy ./src/index.html ./build/",
     "bundle": "webpack -p -d --progress --colors",
-    "build": "npm-run-all html bundle",
+    "build": "npm-run-all bundle",
     "serve": "webpack-dev-server --hot",
-    "dev": "npm-run-all html serve"
+    "dev": "npm-run-all serve"
   },
   "author": "github.com/calben",
   "license": "MIT",
   "dependencies": {
     "file-loader": "^0.11.1",
-    "jquery": "^2.2.4",
+    "jquery": "^2.1.4",
     "normalize.css": "^5.0.0",
     "npm-run-all": "^3.1.2",
     "riot": "^3.4.0",
@@ -38,7 +37,6 @@
     "cpy-cli": "^1.0.1",
     "css-loader": "^0.26.1",
     "csswring": "^5.1.0",
-    "nprogress": "^0.2.0",
     "postcss-custom-properties": "^5.0.1",
     "postcss-import": "^9.0.0",
     "postcss-loader": "^1.2.1",
@@ -46,7 +44,6 @@
     "riotjs-loader": "^3.0.0",
     "style-loader": "^0.13.1",
     "webpack": "^1.14.0",
-    "webpack-dev-server": "^1.16.2",
-    "whatwg-fetch": "^2.0.3"
+    "webpack-dev-server": "^1.16.2"
   }
 }

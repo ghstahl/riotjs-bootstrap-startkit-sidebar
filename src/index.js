@@ -7,30 +7,37 @@ import './event-helper';
 // Put RiotControl first in the startup flow
 import RiotControl from 'riotcontrol';
 riot.control = RiotControl;
+window.riot = riot;
 import './app.tag';
 
 // Add the stores
 ////////////////////////////////////////////////////////
+import RiotControlStore 			from './stores/RiotControlStore.js';
+riot.control.addStore(new RiotControlStore());
+
 import RouteStore 					from './stores/RouteStore.js';
-RiotControl.addStore(new RouteStore());
+riot.control.addStore(new RouteStore());
+
+import DynamicJsCssLoaderStore 		from './stores/dynamic-jscss-loader-store.js';
+riot.control.addStore(new DynamicJsCssLoaderStore());
 
 import RiotControlDispatcherStore 	from './stores/RiotControlDispatcherStore.js';
-RiotControl.addStore(new RiotControlDispatcherStore());
+riot.control.addStore(new RiotControlDispatcherStore());
 
 import FetchStore 					from './stores/fetch-store.js';
-RiotControl.addStore(new FetchStore());
+riot.control.addStore(new FetchStore());
 
 import ProgressStore            	from './stores/progress-store.js';
-RiotControl.addStore(new ProgressStore());
+riot.control.addStore(new ProgressStore());
 
 import LocalStorageStore         	from './stores/localstorage-store.js';
-RiotControl.addStore(new LocalStorageStore());
+riot.control.addStore(new LocalStorageStore());
 
 import ItemStore 					from './stores/itemstore.js';
-RiotControl.addStore(new ItemStore());
+riot.control.addStore(new ItemStore());
 
-import TypicodeUserStore 			from './stores/typicode-user-store.js';
-RiotControl.addStore(new TypicodeUserStore());
+//import TypicodeUserStore 			from './stores/typicode-user-store.js';
+//RiotControl.addStore(new TypicodeUserStore());
 
 riot.mount('app');
 // put Router Last
@@ -50,8 +57,10 @@ riot.router = new Router();
 // 		Send the event to the store, and in my case I send it to what is basically a middleman dispatcher.  My 
 //      dispatcher forwards on the riot.EVT.finalMount.  Only one handler and only one time.
 ////////////////////////////////////////////////////////
-RiotControl.trigger('riot-dispatch',riot.EVT.finalMount,'some data');
-RiotControl.trigger('riot-dispatch','riot-route-dispatch-ack');
+riot.control.trigger('riot-dispatch',riot.EVT.finalMount,'some data');
+riot.control.trigger('riot-dispatch','riot-route-dispatch-ack');
 
+
+riot.route.start(true);
 
 

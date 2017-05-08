@@ -27,12 +27,12 @@ import './components/loading-indicator.tag';
  	self.on('mount', () => {
       console.log('app mount');
       riot.control.on(riot.EVT.appMount,self.onAppMount);
-      riot.control.trigger('app-mount');
+      riot.control.trigger('riot-dispatch','app-mount');
     });
     self.on('unmount', () => {
       console.log('app unmount')
+      riot.control.trigger('riot-dispatch','app-unmount');
       riot.control.off(riot.EVT.appMount,self.onAppMount);
-      riot.control.trigger('app-unmount');
     });
 
     self.onAppMount = () =>{
