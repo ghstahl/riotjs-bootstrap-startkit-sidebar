@@ -18,20 +18,20 @@
 	self.navItems = Array.from(self.navSet);
 
 	self.on('mount', () => {
-	    console.log('header mount');
+	    console.log('sidebar mount');
 	    riot.control.on('riot-route-dispatch-ack',self.onRiotRouteDispatchAck);
 	    riot.control.on('sidebar-add-item',self.onSidebarAddItem);
 	    riot.control.on('sidebar-remove-item',self.onSidebarRemoveItem);
 	  });
 	  self.on('unmount', () => {
-	    console.log('header unmount')
+	    console.log('sidebar unmount')
 	    riot.control.off('riot-route-dispatch-ack',self.onRiotRouteDispatchAck);
      	riot.control.off('sidebar-add-item',self.onSidebarAddItem);
      	riot.control.off('sidebar-remove-item',self.onSidebarRemoveItem);
 	  });
 
 	  self.onRiotRouteDispatchAck = () =>{
-	    console.log('header riot-route-dispatch-ack')
+	    console.log('sidebar riot-route-dispatch-ack')
 	    self.update()
 	  }
 

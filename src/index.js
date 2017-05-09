@@ -41,10 +41,14 @@ riot.control.addStore(new LocalStorageStore());
 import ItemStore 					from './stores/itemstore.js';
 riot.control.addStore(new ItemStore());
 
+
+
+
 //import TypicodeUserStore 			from './stores/typicode-user-store.js';
 //RiotControl.addStore(new TypicodeUserStore());
 
 riot.mount('app');
+riot.control.trigger('dynamic-jscss-loader-init');
 // put Router Last
 ////////////////////////////////////////////////////////
 import Router 		from './router.js';

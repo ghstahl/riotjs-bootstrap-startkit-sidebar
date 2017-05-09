@@ -2,8 +2,9 @@
 import './components/header.tag';
 import './components/sidebar.tag';
 import './components/loading-indicator.tag';
-
+import './components/startup.tag';
 <app>
+<startup></startup>
 <loading-indicator></loading-indicator>
 <header></header>
 <div class="container">
@@ -29,13 +30,14 @@ import './components/loading-indicator.tag';
       riot.control.on(riot.EVT.appMount,self.onAppMount);
       riot.control.trigger('riot-dispatch','app-mount');
     });
-    self.on('unmount', () => {
+
+  self.on('unmount', () => {
       console.log('app unmount')
       riot.control.trigger('riot-dispatch','app-unmount');
       riot.control.off(riot.EVT.appMount,self.onAppMount);
     });
 
-    self.onAppMount = () =>{
+  self.onAppMount = () =>{
       console.log('app '+ riot.EVT.appMount)
     }
 

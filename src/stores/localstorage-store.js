@@ -12,7 +12,10 @@ function LocalStorageStore() {
      {
          key:[string:required],
          data: [Object],
-         trigger:[string:optional]
+         trigger:[optional]{
+                event:[string],
+                riotControl:bool  // do a riotcontrol.trigger or just an observable trigger.
+         }
      }
      */
 
@@ -27,17 +30,23 @@ function LocalStorageStore() {
     /*
     {
         key:'myKey',
-        trigger:'myTrigger'
+        trigger:{
+                event:[string],
+                riotControl:bool  // do a riotcontrol.trigger or just an observable trigger.
+         }
     }
      */
     self.on('localstorage_get', function(query) {
         console.log('localstorage_get:',query);
         var stored = localStorage.getItem(query.key);
+        var data = null;
         if(stored && stored != "undefined"){
-            var restoredSession = JSON.parse(stored);
-            self.trigger(query.trigger, restoredSession)
+            data = JSON.parse(stored);
+        }
+        if(query.trigger.riotControl == true){
+            riot.control.trigger(query.trigger.event,data);
         }else{
-            self.trigger(query.trigger, null)
+            self.trigger(query.trigger.event, data);
         }
     })
 
