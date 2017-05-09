@@ -2,14 +2,15 @@
 
 class DynamicJsCssLoaderStore{
 	constructor(){
-		this._filesadded = ""; //list of files already added
 		riot.observable(this);
 		this._bindEvents();
+		this._filesAddedSet = new Set();
 	}
 	_safeLoadExternal(filename,filetype){
-		if (this._filesadded.indexOf("["+filename+"]")==-1){
-        	this._loadExternal(filename, filetype);
-        	this._filesadded+="["+filename+"]"; //List of files added in the form "[filename1],[filename2],etc"
+		var s = this._filesAddedSet;
+		if(s.has(filename) == false){
+			this._loadExternal(filename, filetype);
+			s.add(filename);
 		    console.log('load-external-jscss',filename,filetype);
 		    this.trigger('load-external-jscss-ack', {state:true,filename:filename,filetype:filetype});
 	    }
@@ -22,6 +23,32 @@ class DynamicJsCssLoaderStore{
 		    	error:"file already added!"});
 	    }
 	}
+	_removeExternal(filename, filetype){
+		var s = this._filesAddedSet;
+		if(s.has(filename) == false){
+			this.trigger('unload-external-jscss-ack', {
+		    	state:false,
+		    	filename:filename,
+		    	filetype:filetype,
+		    	error:"no entry found to remove!"});
+		}else{
+			var targetelement=(filetype=="js")? "script" : (filetype=="css")? "link" : "none" //determine element type to create nodelist from
+	    	var targetattr=(filetype=="js")? "src" : (filetype=="css")? "href" : "none" //determine corresponding attribute to test for
+	    	var allsuspects=document.getElementsByTagName(targetelement)
+	    	for (var i=allsuspects.length; i>=0; i--){ //search backwards within nodelist for matching elements to remove
+			    if (	allsuspects[i] 
+			    	&& 	allsuspects[i].getAttribute(targetattr)!=null 
+			    	&& 	allsuspects[i].getAttribute(targetattr).indexOf(filename)!=-1){
+			    	allsuspects[i].parentNode.removeChild(allsuspects[i]) //remove element by calling parentNode.removeChild()
+					
+					s.delete(filename);
+					break;
+		    	}     
+		    }
+		}
+	}
+
+
 	_loadExternal(filename,filetype){
 		if (filetype=="js"){ //if filename is a external JavaScript file
 	        var fileref=document.createElement('script');
@@ -41,6 +68,7 @@ class DynamicJsCssLoaderStore{
 
   	_bindEvents(){
     	this.on('load-external-jscss', this._safeLoadExternal);
+    	this.on('unload-external-jscss', this._removeExternal);
     }
   
 }

@@ -16,6 +16,11 @@ class RouteStore{
       console.log('riot-route-add-view',view)
       riot.router.addView(view)
     });
+
+    this.on('riot-route-remove-view', (view) => {
+      console.log('riot-route-remove-view',view)
+      riot.router.removeView(view)
+    });
   }
 }
 export default RouteStore;

@@ -5,9 +5,10 @@
   "main": "webpack.config.js",
   "scripts": {
     "bundle": "webpack -p -d --progress --colors",
-    "build": "npm-run-all bundle",
+    "build": "npm-run-all bundle dist",
     "serve": "webpack-dev-server --hot",
-    "dev": "npm-run-all serve"
+    "dev": "npm-run-all serve",
+    "dist":"cp -R ./build/ ../build/partial/"
   },
   "author": "github.com/calben",
   "license": "MIT",

@@ -3,23 +3,31 @@
 <h2>Projects</h2>
 	<a 	onclick={this.loadMyComponentsSPA} 
 		class="btn btn-default btn-lg btn-block">Load My Component SPA</a>
+	<p>
+		{this.resultText}
+	</p>
+
+
 	<a 	onclick={this.unloadMyComponentsSPA} 
 		class="btn btn-default btn-lg btn-block">Unload My Component SPA</a>
-<p>
-	{this.resultText}
-</p>
+	<p>
+		{this.unloadResultText}
+	</p>
 <script>
 	var self = this;
 	self.resultText = "nothing yet...";
+	self.unloadResultText = "nothing yet...";
 	self._componentPath = '/partial/bundle.js';
 	self.on('mount', () => {
 	    console.log('header mount');
 	    riot.control.on('load-external-jscss-ack',self.onLoadExternalJSCssAck);
+	    riot.control.on('unload-external-jscss-ack',self.onUnloadExternalJSCssAck);
 	  });
 	
 	self.on('unmount', () => {
 	    console.log('header unmount')
 	    riot.control.off('load-external-jscss-ack',self.onLoadExternalJSCssAck);
+	    riot.control.off('unload-external-jscss-ack',self.onUnloadExternalJSCssAck);
 	  });
 	
 	self.onLoadExternalJSCssAck = (result) => {
@@ -44,7 +52,17 @@
 		riot.control.trigger('load-external-jscss',self._componentPath,'js');
   	};
   	self.unloadMyComponentsSPA = () => {
-  		riot.control.trigger('riot-contol-remove-store','typicode-user-store');
+  		var registerRecord = {
+			name:'riotjs-partial-spa'
+		};
+		riot.control.trigger('plugin-unregistration',registerRecord);
+		riot.control.trigger(	'riot-dispatch',
+								'sidebar-remove-item',
+								{ 
+									title : 'My Components Page'
+								}
+							);
+		riot.control.trigger('unload-external-jscss',self._componentPath,'js');
   	};
 </script>
 </projects>

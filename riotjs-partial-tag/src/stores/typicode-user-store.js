@@ -18,14 +18,19 @@ function TypicodeUserStore() {
         console.log('TypicodeUserStore app-mount');
         riot.control.on('typicode_users_fetch_result', self.onUsersResult);
     })
-    self.on('typicode-init', function() {
-        console.log('TypicodeUserStore typicode-init');
-        riot.control.on('typicode_users_fetch_result', self.onUsersResult);
-    })
     self.on('app-unmount', function() {
         console.log('TypicodeUserStore app-unmount');
         riot.control.off('typicode_users_fetch_result', self.onUsersResult);
     })
+    self.on('typicode-init', function() {
+        console.log('TypicodeUserStore typicode-init');
+        riot.control.on('typicode_users_fetch_result', self.onUsersResult);
+    })
+    self.on('typicode-uninit', function() {
+        console.log('TypicodeUserStore typicode-uninit');
+        riot.control.off('typicode_users_fetch_result', self.onUsersResult);
+    })
+    
 
     /**
      * Reset tag attributes to hide the errors and cleaning the results list

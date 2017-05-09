@@ -16,6 +16,9 @@ var registerRecord = {
 	],
 	postLoadEvents:[
 		{event:'typicode-init',data:{}}
+	],
+	preUnloadEvents:[
+		{event:'typicode-uninit',data:{}}
 	]
 };
 riot.control.trigger('plugin-registration',registerRecord);
