@@ -12,7 +12,6 @@ riot.routeState = {
 class Router{
 
   constructor(){
-    
     this._initializeViewSet();
     riot.route(this._handleRoute.bind(this));
     riot.route.exec(this._handleRoute.bind(this));

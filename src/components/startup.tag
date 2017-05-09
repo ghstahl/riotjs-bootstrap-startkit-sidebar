@@ -62,7 +62,6 @@
       // this is ours
       if(result.state === true){
         riot.control.trigger( 
-                'riot-dispatch',
                 component.trigger.onLoad.event,
                 component.trigger.onLoad.data);
         var compState = self.state.components.get(component.key);
@@ -79,7 +78,6 @@
       // this is ours
       if(result.state === true){
         riot.control.trigger( 
-                  'riot-dispatch',
                   component.trigger.onUnload.event,
                   component.trigger.onUnload.data);
        

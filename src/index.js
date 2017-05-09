@@ -4,7 +4,15 @@ import 'bootstrap';
 
 import './event-helper';
 
-riot.state = {};
+riot.state = {
+	sidebar:{
+		touch:0,
+		items:[
+			{ title : 'Home', view : 'home'},
+			{ title : 'Projects', view : 'projects'}
+		]
+	}
+};
 // Put RiotControl first in the startup flow
 import RiotControl from 'riotcontrol';
 riot.control = RiotControl;
@@ -41,7 +49,8 @@ riot.control.addStore(new LocalStorageStore());
 import ItemStore 					from './stores/itemstore.js';
 riot.control.addStore(new ItemStore());
 
-
+import SidebarStore 				from './stores/sidebar-store.js';
+riot.control.addStore(new SidebarStore());
 
 
 //import TypicodeUserStore 			from './stores/typicode-user-store.js';
