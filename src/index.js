@@ -4,10 +4,12 @@ import 'bootstrap';
 
 import './event-helper';
 
+riot.state = {};
 // Put RiotControl first in the startup flow
 import RiotControl from 'riotcontrol';
 riot.control = RiotControl;
 window.riot = riot;
+
 import './app.tag';
 
 // Add the stores

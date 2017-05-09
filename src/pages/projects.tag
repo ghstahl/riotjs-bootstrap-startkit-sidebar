@@ -1,23 +1,33 @@
 <projects>
   
 <h2>Projects</h2>
-	<a 	onclick={this.loadMyComponentsSPA} 
-		class="btn btn-default btn-lg btn-block">Load My Component SPA</a>
-	<p>
-		{this.resultText}
-	</p>
+<p>
+	This will load a mini spa located at /partial/bundle.js.
+	This mini spa was built using the riotjs-partial-tag nexted project.
+</p>
 
+<a 	onclick={this.loadMyComponentsSPA} 
+	class={this.state.loaded === true?'disabled btn btn-default btn-lg btn-block':'btn btn-default btn-lg btn-block'}>
+	Load My Component SPA</a>
 
-	<a 	onclick={this.unloadMyComponentsSPA} 
-		class="btn btn-default btn-lg btn-block">Unload My Component SPA</a>
-	<p>
-		{this.unloadResultText}
-	</p>
+<a 	onclick={this.unloadMyComponentsSPA} 
+	class={this.state.loaded === false?'disabled btn btn-default btn-lg btn-block':'btn btn-default btn-lg btn-block'}>Unload My Component SPA</a>
+<p>
+	{this.state.text}
+</p>
 <script>
 	var self = this;
-	self.resultText = "nothing yet...";
-	self.unloadResultText = "nothing yet...";
+	self.state = {};
+
 	self._componentPath = '/partial/bundle.js';
+	
+	self.on('before-mount', () => {
+		if(riot.state.projects === undefined){
+			riot.state.projects = {loaded:false, text:"Not Loaded Yet..."}
+		}
+	    self.state = riot.state.projects;
+	  });
+
 	self.on('mount', () => {
 	    console.log('header mount');
 	    riot.control.on('load-external-jscss-ack',self.onLoadExternalJSCssAck);
@@ -41,9 +51,10 @@
 									view : 'my-component-page' 
 								}
 							);
-				self.resultText = "Success!"
+				self.state.text = "Loaded!"
+				self.state.loaded = true;
 			}else{
-				self.resultText = result.error;
+				self.state.text = result.error;
 			}
 		}
 	}
@@ -58,9 +69,10 @@
 									title : 'My Components Page'
 								}
 							);
-				self.unloadResultText = "Success!"
+				self.state.text = "Not Loaded!"
+				self.state.loaded = false;
 			}else{
-				self.unloadResultText = result.error;
+				self.state.text = result.error;
 			}
 		}
 	}
