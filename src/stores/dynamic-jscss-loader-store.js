@@ -40,8 +40,11 @@ class DynamicJsCssLoaderStore{
 			    	&& 	allsuspects[i].getAttribute(targetattr)!=null 
 			    	&& 	allsuspects[i].getAttribute(targetattr).indexOf(filename)!=-1){
 			    	allsuspects[i].parentNode.removeChild(allsuspects[i]) //remove element by calling parentNode.removeChild()
-					
 					s.delete(filename);
+					this.trigger('unload-external-jscss-ack', {
+				    	state:true,
+				    	filename:filename,
+				    	filetype:filetype });
 					break;
 		    	}     
 		    }

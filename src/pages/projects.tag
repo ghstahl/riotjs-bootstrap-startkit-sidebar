@@ -47,6 +47,23 @@
 			}
 		}
 	}
+	self.onUnloadExternalJSCssAck = (result) => {
+		if(result.filename === self._componentPath){
+			// this is ours
+			if(result.state === true){
+				riot.control.trigger(	
+								'riot-dispatch',
+								'sidebar-remove-item',
+								{ 
+									title : 'My Components Page'
+								}
+							);
+				self.unloadResultText = "Success!"
+			}else{
+				self.unloadResultText = result.error;
+			}
+		}
+	}
   	
   	self.loadMyComponentsSPA = () => {
 		riot.control.trigger('load-external-jscss',self._componentPath,'js');
@@ -56,12 +73,6 @@
 			name:'riotjs-partial-spa'
 		};
 		riot.control.trigger('plugin-unregistration',registerRecord);
-		riot.control.trigger(	'riot-dispatch',
-								'sidebar-remove-item',
-								{ 
-									title : 'My Components Page'
-								}
-							);
 		riot.control.trigger('unload-external-jscss',self._componentPath,'js');
   	};
 </script>
