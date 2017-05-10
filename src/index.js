@@ -31,6 +31,9 @@ riot.control.addStore(new RouteStore());
 import DynamicJsCssLoaderStore 		from './stores/dynamic-jscss-loader-store.js';
 riot.control.addStore(new DynamicJsCssLoaderStore());
 
+import ComponentLoaderStore 		from './stores/component-loader-store.js';
+riot.control.addStore(new ComponentLoaderStore());
+
 import PluginRegistrationStore 		from './stores/plugin-registration-store.js';
 riot.control.addStore(new PluginRegistrationStore());
 
@@ -53,10 +56,10 @@ import SidebarStore 				from './stores/sidebar-store.js';
 riot.control.addStore(new SidebarStore());
 
 
-//import TypicodeUserStore 			from './stores/typicode-user-store.js';
-//RiotControl.addStore(new TypicodeUserStore());
+riot.control.trigger('init-component-loader-store');
 
 riot.mount('app');
+
 riot.control.trigger('dynamic-jscss-loader-init');
 // put Router Last
 ////////////////////////////////////////////////////////

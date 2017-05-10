@@ -1,11 +1,54 @@
 // http://www.javascriptkit.com/javatutors/loadjavascriptcss.shtml
 
 /*
-	 {
+component:{
 		key:'typicode-component',
 		path:'/partial/bundle.js',
 		type:'js'
 	}
+	or when unloading
+component:{
+		key:'typicode-component'
+	}
+
+events:{
+	out:[
+		{
+			event:'load-external-jscss-ack',
+			type:'riotcontrol'
+			data:[
+				{
+			    	state:true,
+			    	component:component
+				},
+				{
+			    	state:false,
+			    	component:component,
+			    	error:"component already added!"
+				}
+			]
+		},
+		{
+			event:'unload-external-jscss-ack',
+			type:'riotcontrol'
+			data:[
+				{
+			    	state:true,
+			    	component:component
+				},
+				{
+			    	state:false,
+			    	component:component,
+			    	error:"no entry found to remove!"
+				}
+			]
+		}
+
+	]
+
+}
+	 
+	 
 	*/
 class DynamicJsCssLoaderStore{
 	constructor(){
@@ -60,11 +103,12 @@ class DynamicJsCssLoaderStore{
 			this._loadExternal(component);
 			this._addComponent(component);
 		    console.log('load-external-jscss',component);
-		    this.trigger('load-external-jscss-ack', {state:true,component:component});
+		    riot.control.trigger('load-external-jscss-ack', 
+		    	{state:true,component:component});
 	    }
 	    else{
 	    	console.error("file already added!",component);
-		    this.trigger('load-external-jscss-ack', {
+		    riot.control.trigger('load-external-jscss-ack', {
 		    	state:false,
 		    	component:component,
 		    	error:"component already added!"});
@@ -73,7 +117,7 @@ class DynamicJsCssLoaderStore{
 	_removeExternal(component){
 		var addedCompoment = this._findComponent(component);
 		if(addedCompoment == null){
-			this.trigger('unload-external-jscss-ack', {
+			riot.control.trigger('unload-external-jscss-ack', {
 		    	state:false,
 		    	component:component,
 		    	error:"no entry found to remove!",});
@@ -90,7 +134,7 @@ class DynamicJsCssLoaderStore{
 			    	allsuspects[i].parentNode.removeChild(allsuspects[i]) //remove element by calling parentNode.removeChild()
 					this._deleteComponent(component);
 					
-					this.trigger('unload-external-jscss-ack', {
+					riot.control.trigger('unload-external-jscss-ack', {
 				    	state:true,
 				    	component:component});
 					break;

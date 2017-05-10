@@ -4,7 +4,7 @@
 	self.state = {};
 
   self._components = new Set();
-  self._components
+  
   self.on('before-mount', () => {
     if(riot.state.startup === undefined){
       riot.state.startup = [];
