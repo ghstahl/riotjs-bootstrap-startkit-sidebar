@@ -20,6 +20,12 @@ window.riot = riot;
 
 import './app.tag';
 
+// Add the mixings
+////////////////////////////////////////////////////////
+import OptsMixin                            from './mixins/opts-mixin.js'
+riot.mixin("opts-mixin",OptsMixin);
+
+
 // Add the stores
 ////////////////////////////////////////////////////////
 import RiotControlStore 			from './stores/RiotControlStore.js';
@@ -54,6 +60,8 @@ riot.control.addStore(new ItemStore());
 
 import SidebarStore 				from './stores/sidebar-store.js';
 riot.control.addStore(new SidebarStore());
+
+
 
 var testComponent = {
         key:'typicode-component',
