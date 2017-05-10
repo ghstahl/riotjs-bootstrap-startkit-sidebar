@@ -1,22 +1,6 @@
-class ComponentLoaderStore{
+/*
 
-  constructor(){
-    var self = this;
-    riot.state.componentLoaderState = {}
-    self.state = riot.state.componentLoaderState;
-    riot.observable(self);
-    self.bindEvents();
-  }
-  _onInitComponentLoaderStore(){
-    console.log('ComponentLoaderStore','init-component-loader-store')
-    var self = this;
-    self._intializeComponentData();
-    self._commitToState();
-  }
-  _intializeComponentData(){
-    var self = this;
-    self._components = new Set();
-    self._components.add({
+var testComponent = {
         key:'typicode-component',
         path:'/partial/bundle.js',
         type:'js',
@@ -38,8 +22,51 @@ class ComponentLoaderStore{
           ]
         },
         state:{loaded:false}
+      };
+
+riot.control.trigger('init-component-loader-store');
+riot.control.trigger('add-dynamic-component',testComponent);
+
+*/
+
+
+class ComponentLoaderStore{
+
+  constructor(){
+    var self = this;
+    self.name = 'ComponentLoaderStore';
+    self.wellKnownEvents = {
+        localStorageResult:'dynamicjscss-localstorage-result',
+        initComponent:'init-component-loader-store',
+        loadDymanicComponent:'load-dynamic-component',
+        unloadDymanicComponent:'unload-dynamic-component',
+        addDynamicComponent:'add-dynamic-component',
+        loadExternalJsCssAck:'load-external-jscss-ack',
+        unloadExternalJsCssAck:'unload-external-jscss-ack',
+        unloadExternalJsCss:'unload-external-jscss',
+        loadExternalJsCss:'load-external-jscss',
+        pluginUnregistration:'plugin-unregistration'
+    }
+    self._components = new Set();
+    riot.state.componentLoaderState = {}
+    self.state = riot.state.componentLoaderState;
+    riot.observable(self);
+    self.bindEvents();
+   
+  }
+
+  _onInitComponentLoaderStore(){
+    var self = this;
+    console.log(self.name,self.wellKnownEvents.initComponent)
+    
+    riot.control.trigger(
+      'localstorage_get',
+      {
+        key:'component-loader-store',
+        trigger:{event:self.wellKnownEvents.localStorageResult,riotControl:true}
       });
   }
+
   _commitToState(){
     var self = this;
     var componentsArray = Array.from(self._components); 
@@ -76,7 +103,7 @@ class ComponentLoaderStore{
   }
   _onLoadExternalJsCssAck(result){
     var self = this;
-    console.log('ComponentLoaderStore','load-external-jscss-ack',result)
+    console.log(self.name,self.wellKnownEvents.loadExternalJsCssAck,result)
 
     var component = self._findComponent(result.component.key);
     if(component != null){
@@ -85,19 +112,17 @@ class ComponentLoaderStore{
         for(let triggerItem of component.trigger.onLoad){
           riot.control.trigger( triggerItem.event,triggerItem.data);
         }
-        var compState = self.state.components.get(component.key);
-        compState.state = {loaded:true};
-        console.log(result);
+        component.state.loaded = true;
+        self._commitToLocalStorage();
       }else{
         console.error(result.error);
       }
     }
-
   }
 
   _onUnloadExternalJsCssAck(result){
     var self = this;
-    console.log('ComponentLoaderStore','unload-external-jscss-ack',result)
+    console.log(self.name,self.wellKnownEvents.unloadExternalJsCssAck,result)
     var component = self._findComponent(result.component.key);
     if(component != null){
       // this is ours
@@ -105,8 +130,8 @@ class ComponentLoaderStore{
         for(let triggerItem of component.trigger.onUnload){
           riot.control.trigger( triggerItem.event,triggerItem.data);
         }
-        var compState = self.state.components.get(component.key);
-        compState.state = {loaded:false};
+         component.state.loaded = false;
+        self._commitToLocalStorage();
       }else{
         console.error(result.error);
       }
@@ -114,30 +139,45 @@ class ComponentLoaderStore{
   }
   _onAddDynamicComponent(component){
     var self = this;
-    console.log('ComponentLoaderStore','add-dynamic-component',component)
+    console.log(self.name,self.wellKnownEvents.addDynamicComponent,component)
     var comp = self._findComponent(component.key);
     if(comp == null){
       self._addComponent(component);
-      riot.control.trigger('load-external-jscss',component);
     }
   }
   
   _onLoadDynamicComponent(key){
     var self = this;
-    console.log('ComponentLoaderStore','load-dynamic-component',key)
+    console.log(self.name,self.wellKnownEvents.loadDymanicComponent,key)
     var component = self._findComponent(key);
     if(component != null && component.state.loaded != true){
-      riot.control.trigger('load-external-jscss',component);
+      riot.control.trigger(self.wellKnownEvents.loadExternalJsCss,component);
     }
+  }
+  _onUnloadDymanicComponent(key){
+    var self = this;
+    console.log(self.name,self.wellKnownEvents.unloadDymanicComponent,key)
+    var component = self._findComponent(key);
+    if(component != null && component.state.loaded == true){
+      riot.control.trigger(self.wellKnownEvents.unloadExternalJsCss,component);     
+    }
+  }
+
+  _onLocalStorageResult(result){
+    var self = this;
+    console.log(self.name,self.wellKnownEvents.localStorageResult,result)
+   
   }
 
   bindEvents(){
     var self = this;
-    self.on('init-component-loader-store', self._onInitComponentLoaderStore);
-    self.on('load-dynamic-component', self._onLoadDynamicComponent);
-    self.on('add-dynamic-component', self._onAddDynamicComponent);
-    self.on('load-external-jscss-ack', self._onLoadExternalJsCssAck);
-    self.on('unload-external-jscss-ack', self._onUnloadExternalJsCssAck);
+    self.on(self.wellKnownEvents.initComponent,           self._onInitComponentLoaderStore);
+    self.on(self.wellKnownEvents.loadDymanicComponent,    self._onLoadDynamicComponent);
+    self.on(self.wellKnownEvents.unloadDymanicComponent,  self._onUnloadDymanicComponent);
+    self.on(self.wellKnownEvents.addDynamicComponent,     self._onAddDynamicComponent);
+    self.on(self.wellKnownEvents.loadExternalJsCssAck,    self._onLoadExternalJsCssAck);
+    self.on(self.wellKnownEvents.unloadExternalJsCssAck,  self._onUnloadExternalJsCssAck);
+    self.on(self.wellKnownEvents.localStorageResult,      self._onLocalStorageResult);
   }
 }
 export default ComponentLoaderStore;

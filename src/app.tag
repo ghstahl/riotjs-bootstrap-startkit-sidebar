@@ -4,7 +4,7 @@ import './components/sidebar.tag';
 import './components/loading-indicator.tag';
 import './components/startup.tag';
 <app>
-<startup></startup>
+
 <loading-indicator></loading-indicator>
 <header></header>
 <div class="container">

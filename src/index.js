@@ -55,12 +55,37 @@ riot.control.addStore(new ItemStore());
 import SidebarStore 				from './stores/sidebar-store.js';
 riot.control.addStore(new SidebarStore());
 
+var testComponent = {
+        key:'typicode-component',
+        path:'/partial/bundle.js',
+        type:'js',
+        trigger:{
+          onLoad:[{
+              event:'sidebar-add-item',
+              data:{
+                title : 'My Components Page', 
+                view : 'my-component-page' 
+              }
+            }
+          ],
+          onUnload:[{
+              event:'sidebar-remove-item',
+              data:{title : 'My Components Page'}
+            },{
+              event:'plugin-unregistration',
+              data:{name:'riotjs-partial-spa'}
+            }
+          ]
+        },
+        state:{loaded:false}
+      };
 
 riot.control.trigger('init-component-loader-store');
-
+riot.control.trigger('add-dynamic-component',testComponent);
+	
 riot.mount('app');
 
-riot.control.trigger('dynamic-jscss-loader-init');
+//riot.control.trigger('dynamic-jscss-loader-init');
 // put Router Last
 ////////////////////////////////////////////////////////
 import Router 		from './router.js';
