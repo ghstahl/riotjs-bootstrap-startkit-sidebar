@@ -98,8 +98,7 @@ riot.control.trigger('add-dynamic-component',testComponent);
 //riot.control.trigger('dynamic-jscss-loader-init');
 // put Router Last
 ////////////////////////////////////////////////////////
-import Router 		from './router.js';
-riot.router = new Router();
+
 
 // Finally dispatch the first event.
 ////////////////////////////////////////////////////////

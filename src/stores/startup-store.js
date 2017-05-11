@@ -1,4 +1,6 @@
 import '../app.tag';
+import Router     from '../router.js';
+
 class StartupStore{
 
   constructor(){
@@ -16,6 +18,7 @@ class StartupStore{
       if(self._startupComplete == false){
         self._startupComplete = true;
         riot.mount('app');
+        riot.router = new Router();
         riot.route.start(true);
       }
     });
