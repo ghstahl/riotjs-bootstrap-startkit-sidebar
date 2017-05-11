@@ -48,7 +48,8 @@ class ComponentLoaderStore{
         loadExternalJsCss:'load-external-jscss',
         pluginUnregistration:'plugin-unregistration',
         componentLoadComplete:'component-load-complete',
-        allComponentsLoadComplete:'all-components-load-complete'
+        allComponentsLoadComplete:'all-components-load-complete',
+        ComponentLoaderStoreStateUpdated:'component-loader-store-state-updated'
     }
 
     self._components = new Set();
@@ -76,6 +77,8 @@ class ComponentLoaderStore{
     var componentsArray = Array.from(self._components); 
     self.state.components = new Map(componentsArray.map((i) => [i.key, i]));
     self._commitToLocalStorage();
+    self.trigger(self.wellKnownEvents.ComponentLoaderStoreStateUpdated);
+
   }
   _commitToLocalStorage(){
     var self = this;
@@ -170,20 +173,19 @@ class ComponentLoaderStore{
   _onLocalStorageResult(result){
     var self = this;
     console.log(self.name,self.wellKnownEvents.localStorageResult,result)
-    if(result == null){
-      return;  // this is fine, just means nothing was in the local store
-    }
-
-    for(let item of result.components){
-      item.state.loadedComplete = false;
-    }
-    for(let item of result.components){
-      self._onAddDynamicComponent(item);
-      if(item.state.loaded == true){
-        item.state.loaded = false;
-        self._onLoadDynamicComponent(item.key);
+    if(result != null){
+      for(let item of result.components){
+        item.state.loadedComplete = false;
+      }
+      for(let item of result.components){
+        self._onAddDynamicComponent(item);
+        if(item.state.loaded == true){
+          item.state.loaded = false;
+          self._onLoadDynamicComponent(item.key);
+        }
       }
     }
+
     // this is in case nobody needed to be loaded, but we had stored componenets that just
     // needed to be added.
     if(self._allLoadedCompleteCheck() == true){

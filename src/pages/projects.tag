@@ -33,21 +33,35 @@ import "../components/pretty-json.tag"
 	var self = this;
 	self.mixin("opts-mixin");
 	self._myComponent = {};
+	self.name = 'projects';
 
 	self.on('before-mount', () => {
 		if(riot.state.projects === undefined){
 			riot.state.projects = {loaded:false, text:"Not Loaded Yet..."}
 		}
-	    self._myComponent = riot.state.componentLoaderState.components.get('typicode-component');
+		self._myComponent = {state:{loaded:false}};
+		if(riot.state.componentLoaderState != null && riot.state.componentLoaderState.components != null){
+			self._myComponent = riot.state.componentLoaderState.components.get('typicode-component');
+		}
+	   
 	  });
 
 	self.on('mount', () => {
-	    console.log('projects mount');
-	  });
-	
-	self.on('unmount', () => {
-	    console.log('projects unmount')
-	  });
+    	console.log(self.name,'mount')
+      	riot.control.on('component-loader-store-state-updated',self.onComponentLoaderStoreStateUpdated);
+    });
+    
+    self.on('unmount', () => {
+ 		console.log(self.name,'unmount')
+      	riot.control.off('component-loader-store-state-updated',self.onComponentLoaderStoreStateUpdated);
+    });
+
+	self.onComponentLoaderStoreStateUpdated = () => {
+		console.log(self.name,'component-loader-store-state-updated')
+  		if(riot.state.componentLoaderState != null && riot.state.componentLoaderState.components != null){
+			self._myComponent = riot.state.componentLoaderState.components.get('typicode-component');
+		}
+  	};
 
   	self.loadMyComponentsSPA = () => {
   		riot.control.trigger('load-dynamic-component','typicode-component');
