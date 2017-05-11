@@ -6,7 +6,7 @@ import 										'./pages/my-component-page.tag';
 import 										'./pages/typicode-user-detail.tag';
 
 var registerRecord = {
-	name:'riotjs-partial-spa',
+	name:'typicode-component',
 	views:[
 		{view:'my-component-page'},
 		{view:'typicode-user-detail'}
@@ -22,6 +22,6 @@ var registerRecord = {
 	]
 };
 riot.control.trigger('plugin-registration',registerRecord);
-
+riot.control.trigger('component-load-complete',registerRecord.name);
 
 

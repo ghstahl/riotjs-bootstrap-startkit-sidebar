@@ -65,7 +65,7 @@ riot.control.addStore(new SidebarStore());
 
 var testComponent = {
         key:'typicode-component',
-        path:'/partial/bundle.js',
+        path:'/partial/typicode_component/bundle.js',
         type:'js',
         trigger:{
           onLoad:[{
@@ -81,7 +81,7 @@ var testComponent = {
               data:{title : 'My Components Page'}
             },{
               event:'plugin-unregistration',
-              data:{name:'riotjs-partial-spa'}
+              data:{name:'typicode-component'}
             }
           ]
         },

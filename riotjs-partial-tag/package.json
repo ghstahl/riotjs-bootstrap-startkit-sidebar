@@ -8,7 +8,7 @@
     "build": "npm-run-all bundle dist",
     "serve": "webpack-dev-server --hot",
     "dev": "npm-run-all serve",
-    "dist":"cp -R ./build/ ../build/partial/"
+    "dist":"cp -R ./build/* ../build/partial/typicode_component/"
   },
   "author": "github.com/calben",
   "license": "MIT",

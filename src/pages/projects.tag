@@ -9,9 +9,8 @@ import "../components/pretty-json.tag"
   </div>
   <div class="panel-body">
     <div class="well well-lg">  
-		This will load a mini spa located at /partial/bundle.js.
-		This mini spa was built using the riotjs-partial-tag nexted project.
-
+		This will load a mini spa which has been pre-bundled.
+		This mini spa was built using the riotjs-partial-tag nested project.
 	</div>
 	
 

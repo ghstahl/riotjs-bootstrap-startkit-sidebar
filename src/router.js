@@ -1,7 +1,7 @@
 import route from 'riot-route'
 import './pages/home.tag'
 import './pages/projects.tag'
-import './pages/typicode-users.tag'
+ 
 
 // we need this to easily check the current route from every component
 riot.route = route
@@ -37,7 +37,6 @@ class Router{
     var s = this._viewsSet;
     s.add('home');
     s.add('projects');
-    s.add('typicode-users');
     this._views = Array.from(s);
   }
   _handleRoute( ){
