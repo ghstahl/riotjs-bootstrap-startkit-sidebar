@@ -2,7 +2,7 @@
 
 var testComponent = {
         key:'typicode-component',
-        path:'/partial/bundle.js',
+        path:'/partial/typicode_component/bundle.js',
         type:'js',
         trigger:{
           onLoad:[{
@@ -15,9 +15,10 @@ var testComponent = {
           ],
           onUnload:[{
               event:'sidebar-remove-item',
-              data:{
-                title : 'My Components Page'
-              }
+              data:{title : 'My Components Page'}
+            },{
+              event:'plugin-unregistration',
+              data:{name:'typicode-component'}
             }
           ]
         },
@@ -45,8 +46,11 @@ class ComponentLoaderStore{
         unloadExternalJsCssAck:'unload-external-jscss-ack',
         unloadExternalJsCss:'unload-external-jscss',
         loadExternalJsCss:'load-external-jscss',
-        pluginUnregistration:'plugin-unregistration'
+        pluginUnregistration:'plugin-unregistration',
+        componentLoadComplete:'component-load-complete',
+        allComponentsLoadComplete:'all-components-load-complete'
     }
+
     self._components = new Set();
     riot.state.componentLoaderState = {}
     self.state = riot.state.componentLoaderState;
@@ -169,6 +173,10 @@ class ComponentLoaderStore{
     if(result == null){
       return;  // this is fine, just means nothing was in the local store
     }
+
+    for(let item of result.components){
+      item.state.loadedComplete = false;
+    }
     for(let item of result.components){
       self._onAddDynamicComponent(item);
       if(item.state.loaded == true){
@@ -176,8 +184,34 @@ class ComponentLoaderStore{
         self._onLoadDynamicComponent(item.key);
       }
     }
+    // this is in case nobody needed to be loaded, but we had stored componenets that just
+    // needed to be added.
+    if(self._allLoadedCompleteCheck() == true){
+      riot.control.trigger(self.wellKnownEvents.allComponentsLoadComplete);
+    }
   }
-
+  _allLoadedCompleteCheck(){
+    var self = this;
+    var result = true;
+    for(let item of self._components){
+      if(item.state.loaded === true && item.state.loadedComplete === false){
+        result = false;
+        break;
+      }
+    }
+    return result;
+  }
+  _onComponentLoadComplete(key){
+    var self = this;
+    console.log(self.name,self.wellKnownEvents.componentLoadComplete,key)
+    var component = self._findComponent(key);
+    if(component != null && component.state.loaded == true){
+      component.state.loadedComplete = true;
+      if(self._allLoadedCompleteCheck() == true){
+        riot.control.trigger(self.wellKnownEvents.allComponentsLoadComplete);
+      }
+    }
+  }
   bindEvents(){
     var self = this;
     self.on(self.wellKnownEvents.initComponent,           self._onInitComponentLoaderStore);
@@ -187,6 +221,7 @@ class ComponentLoaderStore{
     self.on(self.wellKnownEvents.loadExternalJsCssAck,    self._onLoadExternalJsCssAck);
     self.on(self.wellKnownEvents.unloadExternalJsCssAck,  self._onUnloadExternalJsCssAck);
     self.on(self.wellKnownEvents.localStorageResult,      self._onLocalStorageResult);
+    self.on(self.wellKnownEvents.componentLoadComplete,   self._onComponentLoadComplete)
   }
 }
 export default ComponentLoaderStore;

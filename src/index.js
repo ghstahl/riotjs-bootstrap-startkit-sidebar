@@ -4,6 +4,7 @@ import 'bootstrap';
 
 import './event-helper';
 
+riot.routeState = {};
 riot.state = {
 	sidebar:{
 		touch:0,
@@ -17,8 +18,6 @@ riot.state = {
 import RiotControl from 'riotcontrol';
 riot.control = RiotControl;
 window.riot = riot;
-
-import './app.tag';
 
 // Add the mixings
 ////////////////////////////////////////////////////////
@@ -39,6 +38,9 @@ riot.control.addStore(new DynamicJsCssLoaderStore());
 
 import ComponentLoaderStore 		from './stores/component-loader-store.js';
 riot.control.addStore(new ComponentLoaderStore());
+
+import StartupStore 				from './stores/startup-store.js';
+riot.control.addStore(new StartupStore());
 
 import PluginRegistrationStore 		from './stores/plugin-registration-store.js';
 riot.control.addStore(new PluginRegistrationStore());
@@ -91,7 +93,7 @@ var testComponent = {
 riot.control.trigger('init-component-loader-store');
 riot.control.trigger('add-dynamic-component',testComponent);
 	
-riot.mount('app');
+//riot.mount('app');
 
 //riot.control.trigger('dynamic-jscss-loader-init');
 // put Router Last
@@ -115,6 +117,6 @@ riot.control.trigger('riot-dispatch',riot.EVT.finalMount,'some data');
 riot.control.trigger('riot-dispatch','riot-route-dispatch-ack');
 
 
-riot.route.start(true);
+
 
 

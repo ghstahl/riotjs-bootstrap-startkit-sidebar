@@ -1,25 +1,41 @@
 class RouteStore{
 
   constructor(){
-    riot.observable(this);
-    this.bindEvents();
+    var self = this;
+    riot.observable(self);
+    self.bindEvents();
+    self._initializeViewSet();
   }
 
+  _initializeViewSet(){
+    var self = this;
+    self._viewsSet = new Set();
+    var s = self._viewsSet;
+    s.add('home');
+    s.add('projects');
+    riot.routeState.views = Array.from(s);
+    riot.routeState.defaultView = 'home';
+  }
   bindEvents(){
-    this.on('riot-route-dispatch', (route) => {
+    var self = this;
+    self.on('riot-route-dispatch', (route) => {
       console.log('riot-route-dispatch',route)
       riot.route(route)
-      this.trigger('riot-route-dispatch-ack', route);
+      self.trigger('riot-route-dispatch-ack', route);
     });
     
-    this.on('riot-route-add-view', (view) => {
+    self.on('riot-route-add-view', (view) => {
       console.log('riot-route-add-view',view)
-      riot.router.addView(view)
+      var s = self._viewsSet;
+      s.add(view);
+      riot.routeState.views = Array.from(s);
     });
 
-    this.on('riot-route-remove-view', (view) => {
+    self.on('riot-route-remove-view', (view) => {
       console.log('riot-route-remove-view',view)
-      riot.router.removeView(view)
+      var s = self._viewsSet;
+      s.delete(view);
+      riot.routeState.views = Array.from(s);
     });
   }
 }
