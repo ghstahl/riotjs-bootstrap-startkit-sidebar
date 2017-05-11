@@ -166,7 +166,13 @@ class ComponentLoaderStore{
   _onLocalStorageResult(result){
     var self = this;
     console.log(self.name,self.wellKnownEvents.localStorageResult,result)
-   
+    for(let item of result.components){
+      self._onAddDynamicComponent(item);
+      if(item.state.loaded == true){
+        item.state.loaded = false;
+        self._onLoadDynamicComponent(item.key);
+      }
+    }
   }
 
   bindEvents(){
