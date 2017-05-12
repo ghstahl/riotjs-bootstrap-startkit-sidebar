@@ -1,7 +1,5 @@
 import 'bootswatch/slate/bootstrap.css';
 import "./css/index.css";
-import 'bootstrap';
-
 import './event-helper';
 
 riot.routeState = {};
