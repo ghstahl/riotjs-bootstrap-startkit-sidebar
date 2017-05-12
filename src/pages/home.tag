@@ -38,26 +38,13 @@ import '../components/itemlist.tag';
 
 
 <a href="#" class="btn {buttonClasses[buttonS[0]]}">Default</a>
-<a href="#" class="btn btn-primary">Primary</a>
-<a href="#" class="btn btn-success">Success</a>
-<a href="#" class="btn btn-info">Info</a>
-<a href="#" class="btn btn-warning">Warning</a>
-<a href="#" class="btn btn-danger">Danger</a>
-<a href="#" class="btn btn-link">Link</a>
+<a href="#" class="btn {buttonClasses[buttonS[1]]}">Primary</a>
+<a href="#" class="btn {buttonClasses[buttonS[2]]}">Success</a>
+<a href="#" class="btn {buttonClasses[buttonS[3]]}">Info</a>
+<a href="#" class="btn {buttonClasses[buttonS[4]]}">Warning</a>
+<a href="#" class="btn {buttonClasses[buttonS[5]]}">Danger</a>
+<a href="#" class="btn {buttonClasses[buttonS[6]]}">Link</a>
 
-
-
-
-
-
-
-
-
-
-
-
-
- 	<itemlist title="Item List ABC"></itemlist>
 
 <script>
 	var self = this;
@@ -66,13 +53,13 @@ import '../components/itemlist.tag';
 	self.times = [0,1,2,3,4,5,6,7,8,9];
 	self.buttonS = [0,1,2,3,4,5,6];
 	self.buttonClasses = [
-		"btn btn-default",
-		"btn btn-primary",
-		"btn btn-success",
-		"btn btn-info",
-		"btn btn-warning",
-		"btn btn-danger",
-		"btn btn-link"
+		"btn-default",
+		"btn-primary",
+		"btn-success",
+		"btn-info",
+		"btn-warning",
+		"btn-danger",
+		"btn-link"
 		];
 
 	self.a = 0;
