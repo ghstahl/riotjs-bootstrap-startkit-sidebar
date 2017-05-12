@@ -89,7 +89,7 @@ import '../components/itemlist.tag';
 	
 	self.on('mount', function() {
 		self.tick();
-    	self.timer =  setInterval(this.tick, 1000)
+    	self.timer =  setInterval(this.tick,400)
     })
 	self.on('unmount', function() {
     	clearInterval(self.timer)
