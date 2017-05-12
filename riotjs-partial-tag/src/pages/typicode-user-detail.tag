@@ -1,10 +1,10 @@
 <typicode-user-detail>
 
-<div class="panel panel-default">
+<div if={result != null} class="panel panel-default">
     <div class="panel-heading">
         <h3 class="panel-title">{ result.name }</h3>
     </div>
-    <div class="panel-body">
+    <div  class="panel-body">
     <form class="form-horizontal">
         <fieldset>
             <legend>User Details</legend>
@@ -104,7 +104,7 @@
  <script>
     var self = this;
 
-    self.result = {};
+    self.result = null;
     self.onUserChanged = (user) => {
         self.result = user;
         console.log(self.result);

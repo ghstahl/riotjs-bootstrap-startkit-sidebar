@@ -1,35 +1,39 @@
 <my-component-page>
-   
-<h2>my-component-page</h2>
-<p>
-  Lorem ipsum dolor sit amet, consectetur adipisicing elit. 
-  Aspernatur quia soluta optio excepturi, earum saepe explicabo veritatis fuga nesciunt, reprehenderit harum. 
-  Libero consequuntur neque fuga eos, aliquam id beatae eaque? 
-</p>
 
-<table class="table table-striped table-hover ">
-  <thead>
-    <tr>
-      <th>id</th>
-      <th>username</th>
-      <th>name</th>
-      <th>email</th>
-      <th>phone</th>
-      
-    </tr>
-  </thead>
-  <tbody>
-    <tr each={ this.results }>
-      <td>{ this.id }</td>
-      <td>{ this.username }</td>
-      <td>{ this.name }</td>
-      <td>{ this.email }</td>
-      <td>{ this.phone }</td>
-      <td><a onclick={parent.route}>More...</a></td>
-    </tr>
-     
-  </tbody>
+<div class="panel panel-default">
+  <div class="panel-heading">My Component</div>
+  <div class="panel-body">
+    <div class="well">
+      I am located in a prebuilt bundle.js.  I am a full blown SPA as far as I am concerned, as I just had to follow a few rules that the hosting SPA required.
+    </div>
+    <table class="table table-striped table-hover ">
+    <thead>
+      <tr>
+        <th>id</th>
+        <th>username</th>
+        <th>name</th>
+        <th>email</th>
+        <th>phone</th>
+        
+      </tr>
+    </thead>
+    <tbody>
+      <tr each={ this.results }>
+        <td>{ this.id }</td>
+        <td>{ this.username }</td>
+        <td>{ this.name }</td>
+        <td>{ this.email }</td>
+        <td>{ this.phone }</td>
+        <td><a onclick={parent.route}>More...</a></td>
+      </tr>
+       
+    </tbody>
 </table> 
+  </div>
+</div>
+ 
+
+
 <script>
 	var self = this;
 	self.error = false;
