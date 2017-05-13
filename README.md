@@ -1,5 +1,7 @@
 # Riotjs Starterkit with Bootstrap
 
+* [live Demo](https://ghstahl.github.io/riot1/)
+
 Like the original Riotjs Starterkit, this is based on:
 
 * [Riot](https://muut.com/riotjs/)
