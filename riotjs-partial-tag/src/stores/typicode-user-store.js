@@ -14,10 +14,14 @@ function TypicodeUserStore() {
         in:{
             typicodeInit:'typicode-init',
             typicodeUninit:'typicode-uninit',
-            typicodeUsersFetchResult:'typicode_users_fetch_result',
-            typicodeUsersFetch:'typicode_users_fetch'
+            typicodeUsersFetchResult:'typicode-users-fetch-result',
+            typicodeUsersFetch:'typicode-users-fetch',
+            typicodeUserFetch:'typicode-user-fetch'
         },
-        out:{}
+        out:{
+            typicodeUsersChanged:'typicode-users-changed',
+            typicodeUserChanged:'typicode-user-changed'
+        }
     }
     riot.observable(self) // Riot provides our event emitter.
 
@@ -25,19 +29,19 @@ function TypicodeUserStore() {
 
     self.on(riot.EVT.app.out.appMount, function() {
         console.log(riot.EVT.app.out.appMount,self.name);
-        riot.control.on('typicode_users_fetch_result', self.onUsersResult);
+        riot.control.on(riot.EVT.typicodeUserStore.in.typicodeUsersFetchResult, self.onUsersResult);
     })
     self.on(riot.EVT.app.out.appUnmount, function() {
         console.log(riot.EVT.app.out.appUnmount,self.name);
-        riot.control.off('typicode_users_fetch_result', self.onUsersResult);
+        riot.control.off(riot.EVT.typicodeUserStore.in.typicodeUsersFetchResult, self.onUsersResult);
     })
-    self.on('typicode-init', function() {
-        console.log('typicode-init',self.name);
-        riot.control.on('typicode_users_fetch_result', self.onUsersResult);
+    self.on(riot.EVT.typicodeUserStore.in.typicodeInit, function() {
+        console.log(riot.EVT.typicodeUserStore.in.typicodeInit,self.name);
+        riot.control.on(riot.EVT.typicodeUserStore.in.typicodeUsersFetchResult, self.onUsersResult);
     })
-    self.on('typicode-uninit', function() {
-        console.log('typicode-uninit',self.name);
-        riot.control.off('typicode_users_fetch_result', self.onUsersResult);
+    self.on(riot.EVT.typicodeUserStore.in.typicodeUninit, function() {
+        console.log(riot.EVT.typicodeUserStore.in.typicodeUninit,self.name);
+        riot.control.off(riot.EVT.typicodeUserStore.in.typicodeUsersFetchResult, self.onUsersResult);
     })
     
 
@@ -49,19 +53,19 @@ function TypicodeUserStore() {
     }
 
     self.onUsersResult = (data) =>{
-        console.log('user_fetch_result:',data);
+        console.log(riot.EVT.typicodeUserStore.in.typicodeUsersFetchResult,data);
         riot.control.trigger('localstorage_set',{key:user_cache,data:data});
-        self.trigger('typicode_users_changed', data)
+        self.trigger(riot.EVT.typicodeUserStore.out.typicodeUsersChanged, data)
     }
 
-    self.on('typicode_users_fetch', function() {
-        console.log('typicode_users_fetch:');
+    self.on(riot.EVT.typicodeUserStore.in.typicodeUsersFetch, function() {
+        console.log(riot.EVT.typicodeUserStore.in.typicodeUsersFetch);
         var url = 'https://jsonplaceholder.typicode.com/users';
-        riot.control.trigger('fetch',url,null,{name:'typicode_users_fetch_result'});
+        riot.control.trigger(riot.EVT.fetchStore.in.fetch,url,null,{name:riot.EVT.typicodeUserStore.in.typicodeUsersFetchResult});
     })
 
-    self.on('typicode_user_fetch', function(query) {
-        console.log('typicode_user_fetch:');
+    self.on(riot.EVT.typicodeUserStore.in.typicodeUserFetch, function(query) {
+        console.log(riot.EVT.typicodeUserStore.in.typicodeUserFetch);
         var restoredSession = JSON.parse(localStorage.getItem(user_cache));
         var result = restoredSession.filter(function( obj ) {
             return obj.id == query.id;

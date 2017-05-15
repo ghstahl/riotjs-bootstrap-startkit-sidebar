@@ -48,20 +48,20 @@
 
 	self.on('mount', () => {
       console.log('typicode-users mount')
-      riot.control.on('typicode_users_changed',self.onTypicodeUsersChanged);
-      riot.control.trigger('typicode_users_fetch');
+      riot.control.on(riot.EVT.typicodeUserStore.out.typicodeUsersChanged,self.onTypicodeUsersChanged);
+      riot.control.trigger(riot.EVT.typicodeUserStore.in.typicodeUsersFetch);
     });
     self.on('unmount', () => {
       console.log('typicode-users unmount')
-      riot.control.off('typicode_users_changed',self.onTypicodeUsersChanged);
+      riot.control.off(riot.EVT.typicodeUserStore.out.typicodeUsersChanged,self.onTypicodeUsersChanged);
     });
 	self.onTypicodeUsersChanged = (result) =>{
-       console.log('typicode_users_changed');
+       console.log(riot.EVT.typicodeUserStore.out.typicodeUsersChanged);
        self.results = result;
        console.log(self.results);
        self.update();
     }
-    self.route = (evt) => {
+  self.route = (evt) => {
 		riot.control.trigger('riot-route-dispatch',
 		'my-component-page/typicode-user-detail?id='+evt.item.id);
 	  };

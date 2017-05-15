@@ -113,15 +113,15 @@
 
     self.on('unmount', function() {
         console.log('on unmount:');
-        riot.control.off('typicode_user_changed', self.onUserChanged);
+        riot.control.off(riot.EVT.typicodeUserStore.out.typicodeUserChanged, self.onUserChanged);
 
     });
 
     self.on('mount', function() {
         var q = riot.route.query();
         console.log('on mount: typicode-user-detail',q);
-        riot.control.on('typicode_user_changed', self.onUserChanged);
-        riot.control.trigger('typicode_user_fetch', { id: q.id });
+        riot.control.on(riot.EVT.typicodeUserStore.out.typicodeUserChanged, self.onUserChanged);
+        riot.control.trigger(riot.EVT.typicodeUserStore.in.typicodeUserFetch, { id: q.id });
     });
 
 </script>
