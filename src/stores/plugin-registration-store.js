@@ -67,7 +67,7 @@ class PluginRegistrationStore{
       }
       // 2. Remove the stores.
       for(var i=0; i<foundRegistration.stores.length; i++) {
-        riot.control.trigger('riot-contol-remove-store',foundRegistration.stores[i].name);
+        riot.control.trigger(riot.EVT.riotControlStore.in.riotContolRemoveStore,foundRegistration.stores[i].name);
       }
     
       this._removeRegistration(registration.name);
@@ -88,7 +88,7 @@ class PluginRegistrationStore{
       // 1. Add the stores
       for(var i=0; i<registration.stores.length; i++) {
         registration.stores[i].name = registration.name + '-store-' + i; // need this for my own tracking
-        riot.control.trigger('riot-contol-add-store',registration.stores[i].name,registration.stores[i].store);
+        riot.control.trigger(riot.EVT.riotControlStore.in.riotContolAddStore,registration.stores[i].name,registration.stores[i].store);
       }
       // 2. fire post load events
       for(var i=0; i<registration.postLoadEvents.length; i++) {
