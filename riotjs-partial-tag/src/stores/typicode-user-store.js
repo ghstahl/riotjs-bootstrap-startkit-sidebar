@@ -54,7 +54,7 @@ function TypicodeUserStore() {
 
     self.onUsersResult = (data) =>{
         console.log(riot.EVT.typicodeUserStore.in.typicodeUsersFetchResult,data);
-        riot.control.trigger('localstorage_set',{key:user_cache,data:data});
+        riot.control.trigger(riot.EVT.localStorageStore.in.localstorageSet,{key:user_cache,data:data});
         self.trigger(riot.EVT.typicodeUserStore.out.typicodeUsersChanged, data)
     }
 

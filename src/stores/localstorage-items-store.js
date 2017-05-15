@@ -24,7 +24,7 @@ function LocalStorageItemsStore(name) {
     self.onLocalStorageGet = (items) => {
         if(!items){
             self.items = []
-            RiotControl.trigger('localstorage_set',{key:self._localStorageKey,data:self.items});
+            RiotControl.trigger(riot.EVT.localStorageStore.in.localstorageSet,{key:self._localStorageKey,data:self.items});
         }else{
             self.items = items;
         }
@@ -47,7 +47,7 @@ function LocalStorageItemsStore(name) {
         if(self.items){
             self.trigger(self._itemsChangedEVT, self.items)
         }else{
-            RiotControl.trigger('localstorage_get',{
+            RiotControl.trigger(riot.EVT.localStorageStore.in.localstorageGet,{
                 key:self._localStorageKey,
                 trigger:self._localStorageGetEVT
             });
@@ -59,7 +59,7 @@ function LocalStorageItemsStore(name) {
     self.on(self._clearItemsEVT, function() {
         console.log('handle:',self._clearItemsEVT);
         self.items = [];
-        RiotControl.trigger('localstorage_remove',{key:self._localStorageKey});
+        RiotControl.trigger(riot.EVT.localStorageStore.in.localstorageRemove,{key:self._localStorageKey});
         self.trigger(self._itemsChangedEVT, self.items)
     })
 
@@ -74,7 +74,7 @@ function LocalStorageItemsStore(name) {
         }
         if(addIt){
             self.items.push(value);
-            RiotControl.trigger('localstorage_set',{key:self._localStorageKey,data:self.items});
+            RiotControl.trigger(riot.EVT.localStorageStore.in.localstorageSet,{key:self._localStorageKey,data:self.items});
             self.trigger(self._itemsChangedEVT, self.items)
         }
     })
@@ -83,7 +83,7 @@ function LocalStorageItemsStore(name) {
         console.log('handle:',self._removeItemEVT,item,removeFunc);
         if(removeFunc){
             self.items = removeFunc(self.items,item)
-            RiotControl.trigger('localstorage_set',{key:self._localStorageKey,data:self.items});
+            RiotControl.trigger(riot.EVT.localStorageStore.in.localstorageSet,{key:self._localStorageKey,data:self.items});
             self.trigger(self._itemsChangedEVT, self.items)
         }
     })

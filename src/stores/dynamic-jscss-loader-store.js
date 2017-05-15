@@ -62,7 +62,7 @@ class DynamicJsCssLoaderStore{
 		var record = {
 			loaded:Array.from(mySet)
 		};
-		riot.control.trigger('localstorage_set',{
+		riot.control.trigger(riot.EVT.localStorageStore.in.localstorageSet,{
 		        key:'dynamic_jscss_loader_store',
 		        data:record
 		    });
@@ -176,7 +176,7 @@ class DynamicJsCssLoaderStore{
 		}
 	}
 	_onInit(){
-		riot.control.trigger('localstorage_get',{
+		riot.control.trigger(riot.EVT.localStorageStore.in.localstorageGet,{
 		        key:'dynamic_jscss_loader_store',
 		        trigger:{event:'dynamicjscss-localstorage-result',riotControl:true}
 		    });

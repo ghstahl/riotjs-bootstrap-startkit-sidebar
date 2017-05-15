@@ -4,6 +4,16 @@
 
 function LocalStorageStore() {
     var self = this
+    self.name = 'LocalStorageStore';
+    riot.EVT.localStorageStore ={
+        in:{
+            localstorageSet:'localstorage-set',
+            localstorageGet:'localstorage-get',
+            localstorageRemove:'localstorage-remove',
+            localstorageClear:'localstorage-clear'
+        },
+        out:{}
+    }
 
     riot.observable(self) // Riot provides our event emitter.
 
@@ -19,8 +29,8 @@ function LocalStorageStore() {
      }
      */
 
-    self.on('localstorage_set', function(query) {
-        console.log('localstorage_set:',query);
+    self.on(riot.EVT.localStorageStore.in.localstorageSet, function(query) {
+        console.log(riot.EVT.localStorageStore.in.localstorageSet,query);
         localStorage.setItem(query.key, JSON.stringify(query.data));
         if(query.trigger){
             self.trigger(query.trigger) // in case you want an ack
@@ -36,8 +46,8 @@ function LocalStorageStore() {
          }
     }
      */
-    self.on('localstorage_get', function(query) {
-        console.log('localstorage_get:',query);
+    self.on(riot.EVT.localStorageStore.in.localstorageGet, function(query) {
+        console.log(riot.EVT.localStorageStore.in.localstorageGet,query);
         var stored = localStorage.getItem(query.key);
         var data = null;
         if(stored && stored != "undefined"){
@@ -56,16 +66,16 @@ function LocalStorageStore() {
      trigger:'myTrigger'
      }
      */
-    self.on('localstorage_remove', function(query) {
-       console.log('localstorage_get:',query);
+    self.on(riot.EVT.localStorageStore.in.localstorageRemove, function(query) {
+       console.log(riot.EVT.localStorageStore.in.localstorageRemove,query);
        localStorage.removeItem(query.key);
     })
 
     /*
 
      */
-    self.on('localstorage_clear', function() {
-        console.log('localstorage_get:');
+    self.on(riot.EVT.localStorageStore.in.localstorageClear, function() {
+        console.log(riot.EVT.localStorageStore.in.localstorageClear);
         localStorage.clear();
     })
 }

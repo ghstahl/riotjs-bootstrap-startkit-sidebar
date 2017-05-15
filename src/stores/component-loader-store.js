@@ -65,7 +65,7 @@ class ComponentLoaderStore{
     console.log(self.name,self.wellKnownEvents.initComponent)
     
     riot.control.trigger(
-      'localstorage_get',
+      riot.EVT.localStorageStore.in.localstorageGet,
       {
         key:'component-loader-store',
         trigger:{event:self.wellKnownEvents.localStorageResult,riotControl:true}
@@ -86,7 +86,7 @@ class ComponentLoaderStore{
     var record = {
       components:Array.from(mySet)
     };
-    riot.control.trigger('localstorage_set',{
+    riot.control.trigger(riot.EVT.localStorageStore.in.localstorageSet,{
             key:'component-loader-store',
             data:record
         });
