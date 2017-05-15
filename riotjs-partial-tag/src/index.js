@@ -9,9 +9,6 @@ import 										'./pages/home.tag';
 
 var registerRecord = {
 	name:'typicode-component',
-	views:[
-		{ title : 'My Component', route : '/my-component-page/home'}
-	],
 	stores:[
 		{store: new TypicodeUserStore()},
 		{store: new RouteContributionStore()}

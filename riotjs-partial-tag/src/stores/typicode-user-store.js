@@ -71,7 +71,7 @@ function TypicodeUserStore() {
             return obj.id == query.id;
         });
         if(result && result.length>0){
-            self.trigger('typicode_user_changed',result[0]);
+            self.trigger(riot.EVT.typicodeUserStore.out.typicodeUserChanged,result[0]);
         }
     })
 

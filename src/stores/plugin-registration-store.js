@@ -69,10 +69,7 @@ class PluginRegistrationStore{
       for(var i=0; i<foundRegistration.stores.length; i++) {
         riot.control.trigger('riot-contol-remove-store',foundRegistration.stores[i].name);
       }
-      // 3. Remove the views.
-      for(var i=0; i<foundRegistration.views.length; i++) {
-        riot.control.trigger('riot-route-remove-view',foundRegistration.views[i].view);
-      }
+    
       this._removeRegistration(registration.name);
       this.trigger('plugin-unregistration-ack', 
         {
@@ -87,16 +84,13 @@ class PluginRegistrationStore{
    
     if(foundRegistration === null){
       this._registeredPlugins.add(registration);
-      // 1. Add the views
-      for(var i=0; i<registration.views.length; i++) {
-        riot.control.trigger('riot-route-add-view',registration.views[i].view);
-      }
-      // 2. Add the stores
+
+      // 1. Add the stores
       for(var i=0; i<registration.stores.length; i++) {
         registration.stores[i].name = registration.name + '-store-' + i; // need this for my own tracking
         riot.control.trigger('riot-contol-add-store',registration.stores[i].name,registration.stores[i].store);
       }
-      // 3. fire post load events
+      // 2. fire post load events
       for(var i=0; i<registration.postLoadEvents.length; i++) {
         riot.control.trigger(registration.postLoadEvents[i].event,registration.postLoadEvents[i].data);
       }
