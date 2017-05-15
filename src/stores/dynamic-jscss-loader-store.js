@@ -57,23 +57,11 @@ class DynamicJsCssLoaderStore{
 		this._componentsAddedSet = new Set();
 	}
 	
-	_commitToLocalStorage(){
-		var mySet = this._componentsAddedSet;
-		var record = {
-			loaded:Array.from(mySet)
-		};
-		riot.control.trigger(riot.EVT.localStorageStore.in.localstorageSet,{
-		        key:'dynamic_jscss_loader_store',
-		        data:record
-		    });
-		
-	}
-
 	_addComponent(component){
 		if(this._findComponent(component) == null){
 			var mySet = this._componentsAddedSet;
 			mySet.add(component)
-			this._commitToLocalStorage();
+			
 		}
 	}
 
@@ -143,7 +131,6 @@ class DynamicJsCssLoaderStore{
 		}
 	}
 
-
 	_loadExternal(component){
 		var filename = component.path;
 		var filetype = component.type;
@@ -163,29 +150,11 @@ class DynamicJsCssLoaderStore{
 	    }
 	}
 
-	_onLocalStorageResult(data){
-		var self = this;
-		console.log('dynamicjscss-localstorage-result' +':' + data);
-		if(data && data != undefined && data.loaded && data.loaded != undefined){
-			data.loaded.forEach(function(element) {
-		    		console.log(element);
-		    		self._safeLoadExternal(element);
-					});
-
-			//data.loaded.forEach(this._safeLoadExternal(entry.filename,entry.filetype));
-		}
-	}
-	_onInit(){
-		riot.control.trigger(riot.EVT.localStorageStore.in.localstorageGet,{
-		        key:'dynamic_jscss_loader_store',
-		        trigger:{event:'dynamicjscss-localstorage-result',riotControl:true}
-		    });
-	}
   	_bindEvents(){
-  		this.on('dynamic-jscss-loader-init',		this._onInit);
+  		
     	this.on('load-external-jscss', 				this._safeLoadExternal);
     	this.on('unload-external-jscss', 			this._removeExternal);
-    	this.on('dynamicjscss-localstorage-result', this._onLocalStorageResult);
+    	
     }
   
 }
