@@ -21,6 +21,7 @@ class StartupStore{
         riot.router = new Router();
         riot.route.start(true);
       }
+      riot.control.trigger('route-catchall-reset');
     });
   }
 }

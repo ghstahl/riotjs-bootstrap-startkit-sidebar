@@ -1,11 +1,11 @@
-<my-component-page>
+<mpc-my-component-page>
 
 <div class="panel panel-default">
-  <div class="panel-heading">My Component</div>
+  <div class="panel-heading">TypiCode Users</div>
   <div class="panel-body">
     <div class="well">
-      I am located in a prebuilt bundle.js.  I am a full blown SPA as far as I am concerned, as I just had to follow a few rules that the hosting SPA required.
-    </div>
+      This pulls users from https://jsonplaceholder.typicode.com/     
+</div>
     <table class="table table-striped table-hover ">
     <thead>
       <tr>
@@ -14,7 +14,7 @@
         <th>name</th>
         <th>email</th>
         <th>phone</th>
-        
+        <th>details</th>
       </tr>
     </thead>
     <tbody>
@@ -63,8 +63,8 @@
     }
     self.route = (evt) => {
 		riot.control.trigger('riot-route-dispatch',
-		'typicode-user-detail?id='+evt.item.id);
+		'my-component-page/typicode-user-detail?id='+evt.item.id);
 	  };
 </script>
 
-</my-component-page>
+</mpc-my-component-page>

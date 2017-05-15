@@ -2,7 +2,7 @@
  
 		<a 	each={ state.items } 
 			onclick={parent.route}
-			class={ parent.routeState.view === this.view? 'active list-group-item':'list-group-item'  } 
+			class={ parent.routeState.route === this.route? 'active list-group-item':'list-group-item'  } 
 			>{this.title}</a>
 	 
 </div>        
@@ -28,7 +28,7 @@
 	  }
 
 	  self.route = (evt) => {
-		riot.control.trigger('riot-route-dispatch',evt.item.view);
+		riot.control.trigger('riot-route-dispatch',evt.item.route);
 	  };
 	  
 	</script>

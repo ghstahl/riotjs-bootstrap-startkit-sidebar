@@ -33,8 +33,8 @@
   self.routeState = riot.routeState;
 
   self.navItems = [
-    { title : 'Home', view : 'home'},
-    { title : 'Projects', view : 'projects' }
+    { title : 'Home', view : '/main/home'},
+    { title : 'Projects', view : '/main/projects' }
   ];
 
   self.on('mount', () => {

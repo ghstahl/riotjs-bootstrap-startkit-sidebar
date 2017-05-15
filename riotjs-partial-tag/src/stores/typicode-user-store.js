@@ -47,7 +47,7 @@ function TypicodeUserStore() {
 
     self.on('typicode_users_fetch', function() {
         console.log('typicode_users_fetch:');
-        var url = 'http://jsonplaceholder.typicode.com/users';
+        var url = 'https://jsonplaceholder.typicode.com/users';
         riot.control.trigger('fetch',url,null,{name:'typicode_users_fetch_result'});
     })
 

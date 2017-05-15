@@ -1,4 +1,4 @@
-<typicode-user-detail>
+<mpc-typicode-user-detail>
 
 <div if={result != null} class="panel panel-default">
     <div class="panel-heading">
@@ -125,4 +125,4 @@
     });
 
 </script>
-</typicode-user-detail>
+</mpc-typicode-user-detail>

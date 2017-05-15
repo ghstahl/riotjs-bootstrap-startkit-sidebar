@@ -1,14 +1,16 @@
 import 'bootswatch/slate/bootstrap.css';
 import "./css/index.css";
 import './event-helper';
+import route from 'riot-route'
 
+riot.route = route;
 riot.routeState = {};
 riot.state = {
 	sidebar:{
 		touch:0,
 		items:[
-			{ title : 'Home', view : 'home'},
-			{ title : 'Projects', view : 'projects'}
+			{ title : 'Home', route : '/main/home'},
+			{ title : 'Projects', route : '/main/projects'}
 		]
 	}
 };
@@ -72,7 +74,7 @@ var testComponent = {
               event:'sidebar-add-item',
               data:{
                 title : 'My Components Page', 
-                view : 'my-component-page' 
+                route : 'my-component-page/home' 
               }
             }
           ],
