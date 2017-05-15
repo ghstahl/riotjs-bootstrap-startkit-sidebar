@@ -10,7 +10,18 @@ function ProgressStore() {
 
     riot.observable(self) // Riot provides our event emitter.
 
-
+    riot.EVT.progressStore ={
+        in:{
+            inprogressDone:'inprogress_done',
+            inprogressStart:'inprogress_start'
+        },
+        out:{
+            progressStart:'progress_start',
+            progressCount:'progress_count',
+            progressDone:'progress_done'
+        }
+        
+    }
 
     self.count = 0;
 
@@ -19,15 +30,15 @@ function ProgressStore() {
     // Any number of views can emit actions/events without knowing the specifics of the back-end.
     // This store can easily be swapped for another, while the view components remain untouched.
 
-    self.on('inprogress_start', function() {
+    self.on(riot.EVT.progressStore.in.inprogressStart, function() {
         if(self.count == 0){
-            self.trigger('progress_start')
+            self.trigger(riot.EVT.progressStore.out.progressStart)
         }
         ++self.count;
-        self.trigger('progress_count',self.count);
+        self.trigger(riot.EVT.progressStore.out.progressCount,self.count);
     })
 
-    self.on('inprogress_done', function() {
+    self.on(riot.EVT.progressStore.in.inprogressDone, function() {
         if(self.count == 0){
             // very bad.
             console.error('inprogress_done:','someone has their inprogress_done mismatched with thier inprogress_start');
@@ -35,9 +46,9 @@ function ProgressStore() {
         if(self.count > 0){
             --self.count;
         }
-        self.trigger('progress_count',self.count);
+        self.trigger(riot.EVT.progressStore.out.progressCount,self.count);
         if(self.count == 0){
-            self.trigger('progress_done')
+            self.trigger(riot.EVT.progressStore.out.progressDone)
         }
     })
 }

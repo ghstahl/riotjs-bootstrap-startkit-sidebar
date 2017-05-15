@@ -16,13 +16,13 @@ function TypicodeUserStore() {
 
     self.fetchException = null;
 
-    self.on('app-mount', function() {
-        console.log('TypicodeUserStore app-mount');
+    self.on(riot.EVT.app.out.appMount, function() {
+        console.log('TypicodeUserStore',riot.EVT.app.out.appMount);
         RiotControl.on('typicode_users_fetch_result', self.onUsersResult);
     })
 
-    self.on('app-unmount', function() {
-        console.log('TypicodeUserStore app-unmount');
+    self.on(riot.EVT.app.out.appUnmount, function() {
+        console.log('TypicodeUserStore',riot.EVT.app.out.appUnmount);
         RiotControl.off('typicode_users_fetch_result', self.onUsersResult);
     })
 

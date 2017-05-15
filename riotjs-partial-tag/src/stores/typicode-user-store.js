@@ -9,25 +9,34 @@ const user_cache = 'typicodeUserCache';
 
 function TypicodeUserStore() {
     var self = this
-
+    self.name = 'TypicodeUserStore';
+    riot.EVT.typicodeUserStore ={
+        in:{
+            typicodeInit:'typicode-init',
+            typicodeUninit:'typicode-uninit',
+            typicodeUsersFetchResult:'typicode_users_fetch_result',
+            typicodeUsersFetch:'typicode_users_fetch'
+        },
+        out:{}
+    }
     riot.observable(self) // Riot provides our event emitter.
 
     self.fetchException = null;
 
-    self.on('app-mount', function() {
-        console.log('TypicodeUserStore app-mount');
+    self.on(riot.EVT.app.out.appMount, function() {
+        console.log(riot.EVT.app.out.appMount,self.name);
         riot.control.on('typicode_users_fetch_result', self.onUsersResult);
     })
-    self.on('app-unmount', function() {
-        console.log('TypicodeUserStore app-unmount');
+    self.on(riot.EVT.app.out.appUnmount, function() {
+        console.log(riot.EVT.app.out.appUnmount,self.name);
         riot.control.off('typicode_users_fetch_result', self.onUsersResult);
     })
     self.on('typicode-init', function() {
-        console.log('TypicodeUserStore typicode-init');
+        console.log('typicode-init',self.name);
         riot.control.on('typicode_users_fetch_result', self.onUsersResult);
     })
     self.on('typicode-uninit', function() {
-        console.log('TypicodeUserStore typicode-uninit');
+        console.log('typicode-uninit',self.name);
         riot.control.off('typicode_users_fetch_result', self.onUsersResult);
     })
     

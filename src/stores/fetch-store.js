@@ -14,7 +14,10 @@ function FetchStore() {
     var self = this
 
     self.fetchException = null;
-
+    riot.EVT.fetchStore ={
+        in:{fetch:'fetch'},
+        out:{}
+    }
     /**
      * Reset tag attributes to hide the errors and cleaning the results list
      */
@@ -29,12 +32,12 @@ function FetchStore() {
             RiotControl.trigger(query.evt);
         }
     }
-    self.on('app-mount', function() {
-        console.log('FetchStore app-mount');
+    self.on(riot.EVT.app.out.appMount, function() {
+        console.log('FetchStore',riot.EVT.app.out.appMount);
         RiotControl.on('riot-trigger', self.onRiotTrigger);
     })
 
-    self.on('app-unmount', function() {
+    self.on(riot.EVT.app.out.appUnmount, function() {
         console.log('FetchStore app-unmount');
         RiotControl.off('riot-trigger', self.onRiotTrigger);
     })
@@ -92,8 +95,8 @@ function FetchStore() {
     // Any number of views can emit actions/events without knowing the specifics of the back-end.
     // This store can easily be swapped for another, while the view components remain untouched.
 
-    self.on('fetch', function(input,init,trigger,jsonFixup = true) {
-        console.log('fetch:',input,init,trigger,jsonFixup);
+    self.on(riot.EVT.fetchStore.in.fetch, function(input,init,trigger,jsonFixup = true) {
+        console.log(riot.EVT.fetchStore.in.fetch,input,init,trigger,jsonFixup);
         self.doRiotControlFetchRequest(input,init,trigger,jsonFixup);
     })
 

@@ -31,14 +31,14 @@ function LocalStorageItemsStore(name) {
         self.trigger(self._itemsChangedEVT, self.items)
     }
 
-    self.on('app-mount', function() {
-        console.log('ClientCredentialStore app-mount');
+    self.on(riot.EVT.app.out.appMount, function() {
+        console.log('ClientCredentialStore',riot.EVT.app.out.appMount);
         RiotControl.on(self._localStorageGetEVT, self.onLocalStorageGet);
         self._asyncFetchItemFromStorage();
     })
 
-    self.on('app-unmount', function() {
-        console.log('ClientCredentialStore app-unmount');
+    self.on(riot.EVT.app.out.appUnmount, function() {
+        console.log('ClientCredentialStore',riot.EVT.app.out.appUnmount);
         RiotControl.off(self._localStorageGetEVT, self.onLocalStorageGet);
     })
 

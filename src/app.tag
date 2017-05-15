@@ -26,15 +26,15 @@ import './components/startup.tag';
  	var self = this;
 
  	self.on('mount', () => {
-      console.log('app mount');
-      riot.control.on(riot.EVT.appMount,self.onAppMount);
-      riot.control.trigger('riot-dispatch','app-mount');
+      console.log(riot.EVT.app.out.appMount);
+      riot.control.on(riot.EVT.app.out.appMount,self.onAppMount);
+      riot.control.trigger('riot-dispatch',riot.EVT.app.out.appMount);
     });
 
   self.on('unmount', () => {
-      console.log('app unmount')
-      riot.control.trigger('riot-dispatch','app-unmount');
-      riot.control.off(riot.EVT.appMount,self.onAppMount);
+      console.log(riot.EVT.app.out.appUnmount)
+      riot.control.trigger('riot-dispatch',riot.EVT.app.out.appUnmount);
+      riot.control.off(riot.EVT.app.out.appMount,self.onAppMount);
     });
 
   self.onAppMount = () =>{
