@@ -22,6 +22,10 @@ import "../components/pretty-json.tag"
 		class={this._myComponent.state.loaded === false?'disabled btn btn-default btn-lg':'btn btn-primary btn-lg'}>
 		Unload Component</a>
 
+	<a 	onclick={this.clearLocalStorage} 
+		class='btn btn-primary btn-lg'>
+		Clear Local Storage</a>
+
 		<div class="spacer"></div>
 		<pretty-json obj={this._myComponent}></pretty-json>
   </div>
@@ -63,7 +67,10 @@ import "../components/pretty-json.tag"
 		}
   	};
 
-  	self.loadMyComponentsSPA = () => {
+  	self.clearLocalStorage = () => {
+  		riot.control.trigger(riot.EVT.localStorageStore.in.localstorageClear);
+  	};
+	self.loadMyComponentsSPA = () => {
   		riot.control.trigger('load-dynamic-component','typicode-component');
   	};
 

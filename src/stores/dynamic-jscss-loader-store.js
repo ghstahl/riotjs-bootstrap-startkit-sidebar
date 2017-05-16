@@ -82,7 +82,6 @@ class DynamicJsCssLoaderStore{
 	        	break;
 	        }
 	    }
-	    this._commitToLocalStorage();
 	  }
 
 	_safeLoadExternal(component){
