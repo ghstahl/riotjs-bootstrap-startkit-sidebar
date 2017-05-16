@@ -5,16 +5,19 @@
 // Flux stores house application logic and state that relate to a specific domain.
 // In this case, a list of todo items.
 import 'whatwg-fetch';
-import RiotControl from 'riotcontrol';
-
 
 function FetchStore() {
     var self = this
     self.name = 'FetchStore';
     self.namespace = self.name+':';
     riot.EVT.fetchStore ={
-        in:{fetch:self.namespace+'fetch'},
-        out:{}
+        in:{
+            fetch:self.namespace +'fetch'
+        },
+        out:{
+            inprogressDone:riot.EVT.progressStore.in.inprogressDone,
+            inprogressStart:riot.EVT.progressStore.in.inprogressStart
+        }
     }
 
     riot.observable(self) // Riot provides our event emitter.
@@ -30,24 +33,24 @@ function FetchStore() {
 
     self.onRiotTrigger = (query,data)=>{
         if(query.query){
-            RiotControl.trigger(query.evt,query.query);
+            riot.control.trigger(query.evt,query.query);
         }else{
-            RiotControl.trigger(query.evt);
+            riot.control.trigger(query.evt);
         }
     }
     self.on(riot.EVT.app.out.appMount, function() {
-        console.log('FetchStore',riot.EVT.app.out.appMount);
-        RiotControl.on('riot-trigger', self.onRiotTrigger);
+        console.log(self.name,riot.EVT.app.out.appMount);
+        riot.control.on('riot-trigger', self.onRiotTrigger);
     })
 
     self.on(riot.EVT.app.out.appUnmount, function() {
-        console.log('FetchStore app-unmount');
-        RiotControl.off('riot-trigger', self.onRiotTrigger);
+        console.log(self.name,'app-unmount');
+        riot.control.off('riot-trigger', self.onRiotTrigger);
     })
     self.doRiotControlFetchRequest = function(input,init,trigger,jsonFixup ) {
         // we are a json shop
 
-        RiotControl.trigger('inprogress_start');
+        riot.control.trigger(riot.EVT.fetchStore.out.inprogressStart);
         if(jsonFixup == true){
             if(!init){
                 init = {}
@@ -77,7 +80,7 @@ function FetchStore() {
             return response.json();
         }).then(function (data) {
             console.log(data);
-            RiotControl.trigger('inprogress_done');
+            riot.control.trigger(riot.EVT.fetchStore.out.inprogressDone);
             let myTrigger = JSON.parse(JSON.stringify(trigger));
 
             if(myTrigger.query){
@@ -89,7 +92,7 @@ function FetchStore() {
         }).catch(function(ex) {
             console.log('fetch failed', ex)
             self.error = ex;
-            RiotControl.trigger('inprogress_done');
+            riot.control.trigger(riot.EVT.fetchStore.out.inprogressDone);
         });
     }
 

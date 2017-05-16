@@ -30,6 +30,9 @@ riot.mixin("opts-mixin",OptsMixin);
 
 // Add the stores
 ////////////////////////////////////////////////////////
+import ProgressStore            	from './stores/progress-store.js';
+riot.control.addStore(new ProgressStore());
+
 import LocalStorageStore         	from './stores/localstorage-store.js';
 riot.control.addStore(new LocalStorageStore());
 
@@ -61,8 +64,6 @@ riot.control.addStore(new RiotControlDispatcherStore());
 import FetchStore 					from './stores/fetch-store.js';
 riot.control.addStore(new FetchStore());
 
-import ProgressStore            	from './stores/progress-store.js';
-riot.control.addStore(new ProgressStore());
 
 
 
