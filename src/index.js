@@ -27,6 +27,9 @@ riot.mixin("opts-mixin",OptsMixin);
 
 // Add the stores
 ////////////////////////////////////////////////////////
+import LocalStorageStore         	from './stores/localstorage-store.js';
+riot.control.addStore(new LocalStorageStore());
+
 import RiotControlStore 			from './stores/RiotControlStore.js';
 riot.control.addStore(new RiotControlStore());
 
@@ -36,14 +39,15 @@ riot.control.addStore(new RouteStore());
 import DynamicJsCssLoaderStore 		from './stores/dynamic-jscss-loader-store.js';
 riot.control.addStore(new DynamicJsCssLoaderStore());
 
+import PluginRegistrationStore 		from './stores/plugin-registration-store.js';
+riot.control.addStore(new PluginRegistrationStore());
+
 import ComponentLoaderStore 		from './stores/component-loader-store.js';
 riot.control.addStore(new ComponentLoaderStore());
 
 import StartupStore 				from './stores/startup-store.js';
 riot.control.addStore(new StartupStore());
 
-import PluginRegistrationStore 		from './stores/plugin-registration-store.js';
-riot.control.addStore(new PluginRegistrationStore());
 
 import RiotControlDispatcherStore 	from './stores/RiotControlDispatcherStore.js';
 riot.control.addStore(new RiotControlDispatcherStore());
@@ -54,8 +58,7 @@ riot.control.addStore(new FetchStore());
 import ProgressStore            	from './stores/progress-store.js';
 riot.control.addStore(new ProgressStore());
 
-import LocalStorageStore         	from './stores/localstorage-store.js';
-riot.control.addStore(new LocalStorageStore());
+
 
 import ItemStore 					from './stores/itemstore.js';
 riot.control.addStore(new ItemStore());

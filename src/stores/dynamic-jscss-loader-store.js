@@ -52,11 +52,25 @@ events:{
 	*/
 class DynamicJsCssLoaderStore{
 	constructor(){
+		var self = this;
+		self.name = 'DynamicJsCssLoaderStore';
+		self.namespace = self.name + ':';
+		riot.EVT.dynamicJsCssLoaderStore ={
+	        in:{
+	        	loadExternalJsCss:self.namespace + 'load-external-jscss',
+	        	unloadExternalJsCss:self.namespace + 'unload-external-jscss'
+	        },
+	        out:{
+	        	loadExternalJsCssAck:self.namespace + 'load-external-jscss-ack',
+	        	unloadExternalJsCssAck:self.namespace + 'unload-external-jscss-ack'
+	        }
+	    }
 		riot.observable(this);
 		this._bindEvents();
 		this._componentsAddedSet = new Set();
 	}
-	
+
+
 	_addComponent(component){
 		if(this._findComponent(component) == null){
 			var mySet = this._componentsAddedSet;
@@ -90,12 +104,12 @@ class DynamicJsCssLoaderStore{
 			this._loadExternal(component);
 			this._addComponent(component);
 		    console.log('load-external-jscss',component);
-		    riot.control.trigger('load-external-jscss-ack', 
+		    riot.control.trigger(riot.EVT.dynamicJsCssLoaderStore.out.loadExternalJsCssAck, 
 		    	{state:true,component:component});
 	    }
 	    else{
 	    	console.error("file already added!",component);
-		    riot.control.trigger('load-external-jscss-ack', {
+		    riot.control.trigger(riot.EVT.dynamicJsCssLoaderStore.out.loadExternalJsCssAck, {
 		    	state:false,
 		    	component:component,
 		    	error:"component already added!"});
@@ -104,7 +118,7 @@ class DynamicJsCssLoaderStore{
 	_removeExternal(component){
 		var addedCompoment = this._findComponent(component);
 		if(addedCompoment == null){
-			riot.control.trigger('unload-external-jscss-ack', {
+			riot.control.trigger(riot.EVT.dynamicJsCssLoaderStore.out.unloadExternalJsCssAck, {
 		    	state:false,
 		    	component:component,
 		    	error:"no entry found to remove!",});
@@ -121,7 +135,7 @@ class DynamicJsCssLoaderStore{
 			    	allsuspects[i].parentNode.removeChild(allsuspects[i]) //remove element by calling parentNode.removeChild()
 					this._deleteComponent(component);
 					
-					riot.control.trigger('unload-external-jscss-ack', {
+					riot.control.trigger(riot.EVT.dynamicJsCssLoaderStore.out.unloadExternalJsCssAck, {
 				    	state:true,
 				    	component:component});
 					break;
@@ -151,8 +165,8 @@ class DynamicJsCssLoaderStore{
 
   	_bindEvents(){
   		
-    	this.on('load-external-jscss', 				this._safeLoadExternal);
-    	this.on('unload-external-jscss', 			this._removeExternal);
+    	this.on(riot.EVT.dynamicJsCssLoaderStore.in.loadExternalJsCss,	this._safeLoadExternal);
+    	this.on(riot.EVT.dynamicJsCssLoaderStore.in.unloadExternalJsCss,this._removeExternal);
     	
     }
   
