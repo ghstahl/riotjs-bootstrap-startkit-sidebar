@@ -2,10 +2,13 @@
 class RiotControlStore{
 
   constructor(){
-     riot.EVT.riotControlStore ={
+    var self = this;
+    self.name = 'RiotControlStore';
+    self.namespace = self.name + ':';
+    riot.EVT.riotControlStore ={
         in:{
-          riotContolAddStore:'riot-contol-add-store',
-          riotContolRemoveStore:'riot-contol-remove-store'
+          riotContolAddStore:self.namespace+'riot-contol-add-store',
+          riotContolRemoveStore:self.namespace+'riot-contol-remove-store'
         },
         out:{}
     }

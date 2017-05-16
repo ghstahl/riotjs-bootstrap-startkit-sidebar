@@ -12,7 +12,6 @@ riot.EVT = {
 
 	contributeRoutes: 'contribute-routes',
 	contributeCatchAllRoute: 'contribute-catchall-route',
-	loadView:'riot-route-load-view',
-	routeDispatch:'riot-route-dispatch',
-	routeDispatchAck:'riot-route-dispatch-ack'
+	loadView:'riot-route-load-view'
+
 }

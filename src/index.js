@@ -81,7 +81,7 @@ var testComponent = {
         type:'js',
         trigger:{
           onLoad:[{
-              event:'sidebar-add-item',
+              event:'SidebarStore:sidebar-add-item',
               data:{
                 title : 'My Components Page', 
                 route : 'my-component-page/home' 
@@ -89,7 +89,7 @@ var testComponent = {
             }
           ],
           onUnload:[{
-              event:'sidebar-remove-item',
+              event:'SidebarStore:sidebar-remove-item',
               data:{title : 'My Components Page'}
             },{
               event:'plugin-unregistration',

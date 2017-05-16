@@ -25,14 +25,14 @@ class RouteContributionStore{
         console.log('route handler of /main/' + name)
         var view = name;
         if(self.views.indexOf(view) === -1){
-          riot.control.trigger(riot.EVT.routeDispatch,self.defaultRoute);
+          riot.control.trigger(riot.EVT.routeStore.in.routeDispatch,self.defaultRoute);
         }else{
           riot.control.trigger(riot.EVT.loadView,view);
         }
         });
       r('/main', ()=>{
         console.log('route handler of /main  ')
-        riot.control.trigger(riot.EVT.routeDispatch,self.defaultRoute);
+        riot.control.trigger(riot.EVT.routeStore.in.routeDispatch,self.defaultRoute);
       });
     });
 

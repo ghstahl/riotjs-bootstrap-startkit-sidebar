@@ -6,10 +6,11 @@ class RouteStore{
     self.namespace = self.name+':';
     riot.EVT.routeStore ={
         in:{
-          routeCatchallReset:self.namespace+'route-catchall-reset'
+          routeCatchallReset:'route-catchall-reset',
+          routeDispatch:'riot-route-dispatch'
         },
         out:{
-          
+          riotRouteDispatchAck:'riot-route-dispatch-ack'
         }
     }
 
@@ -26,16 +27,16 @@ class RouteStore{
       console.log(self.name,riot.EVT.contributeRoutes,r)
      r( ()=>{
         console.log('route handler of /  ' )
-        riot.control.trigger(riot.EVT.routeDispatch,riot.state.route.defaultRoute);
+        riot.control.trigger(riot.EVT.routeStore.in.routeDispatch,riot.state.route.defaultRoute);
       }) 
     });
 
     
 
-    self.on(riot.EVT.routeDispatch, (route) => {
-      console.log(self.name,riot.EVT.routeDispatch,route)
+    self.on(riot.EVT.routeStore.in.routeDispatch, (route) => {
+      console.log(self.name,riot.EVT.routeStore.in.routeDispatch,route)
       riot.route(route)
-      self.trigger(riot.EVT.routeDispatchAck, route);
+      self.trigger(riot.EVT.routeStore.in.routeDispatchAck, route);
     });
 
     self.on(riot.EVT.routeStore.in.routeCatchallReset, () => {

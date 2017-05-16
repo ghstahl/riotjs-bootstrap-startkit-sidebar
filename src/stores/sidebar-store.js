@@ -2,6 +2,18 @@ class SidebarStore{
 
   constructor(){
     var self = this;
+    self.name = 'SidebarStore';
+    self.namespace = self.name+':';
+    riot.EVT.sidebarStore ={
+        in:{
+            sidebarAddItem:self.namespace +'sidebar-add-item',
+            sidebarRemoveItem:self.namespace +'sidebar-remove-item'
+        },
+        out:{
+            riotRouteDispatchAck:riot.EVT.routeStore.out.riotRouteDispatchAck
+        }
+    }
+
     riot.observable(self);
     self.itemsSet = new Set();
     self.bindEvents();
@@ -12,7 +24,7 @@ class SidebarStore{
   _commitToState(){
     var self = this;
     self.state.items = Array.from(self.itemsSet);
-    self.trigger('riot-route-dispatch-ack');
+    self.trigger(riot.EVT.sidebarStore.out.riotRouteDispatchAck);
   }
 
   _loadFromState(){
@@ -59,8 +71,8 @@ class SidebarStore{
 
   bindEvents(){
     var self = this;
-    self.on('sidebar-add-item',     self._onSidebarAddItem);
-    self.on('sidebar-remove-item',  self._onSidebarRemoveItem);
+    self.on(riot.EVT.sidebarStore.in.sidebarAddItem,     self._onSidebarAddItem);
+    self.on(riot.EVT.sidebarStore.in.sidebarRemoveItem,  self._onSidebarRemoveItem);
   }
 
 }
