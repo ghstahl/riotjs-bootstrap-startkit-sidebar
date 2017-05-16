@@ -22,8 +22,8 @@ import '../pages/projects.tag'
   }
   bindEvents(){
     var self = this;
-    self.on(riot.EVT.contributeRoutes, (r) => {
-      console.log(self.name,riot.EVT.contributeRoutes,r)
+    self.on(riot.EVT.router.out.contributeRoutes, (r) => {
+      console.log(self.name,riot.EVT.router.out.contributeRoutes,r)
       r('/main/*', (name)=>{
         console.log('route handler of /main/' + name)
         var view = name;

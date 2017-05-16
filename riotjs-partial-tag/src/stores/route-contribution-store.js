@@ -20,8 +20,8 @@ class RouteContributionStore{
   }
   bindEvents(){
     var self = this;
-    self.on(riot.EVT.contributeRoutes, (r) => {
-      console.log(self.name,riot.EVT.contributeRoutes,r)
+    self.on(riot.EVT.router.out.contributeRoutes, (r) => {
+      console.log(self.name,riot.EVT.router.out.contributeRoutes,r)
       r('/my-component-page/typicode-user-detail?id=*', ()=>{
         console.log('route handler of /my-component-page/typicode-user-detail'  )
         riot.control.trigger(riot.EVT.loadView,'mpc-typicode-user-detail');
@@ -31,7 +31,7 @@ class RouteContributionStore{
         console.log('route handler of /my-component-page/'+name )
         var view = name;
         if(self.views.indexOf(view) === -1){
-          riot.control.trigger(riot.EVT.routeDispatch,self.defaultRoute);
+          riot.control.trigger(riot.EVT.routeStore.in.routeDispatch,self.defaultRoute);
         }else{
           riot.control.trigger(riot.EVT.loadView,'mpc-'+view);
         }
@@ -41,7 +41,7 @@ class RouteContributionStore{
 
       r('/my-component-page', ()=>{
         console.log('route handler of /my-component-page' )
-        riot.control.trigger(riot.EVT.routeDispatch,self.defaultRoute);
+        riot.control.trigger(riot.EVT.routeStore.in.routeDispatch,self.defaultRoute);
       });
     });
 

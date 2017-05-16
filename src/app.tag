@@ -2,7 +2,7 @@
 import './components/header.tag';
 import './components/sidebar.tag';
 import './components/loading-indicator.tag';
-import './components/startup.tag';
+
 <app>
 
 <loading-indicator></loading-indicator>
