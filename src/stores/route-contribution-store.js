@@ -1,4 +1,7 @@
-class RouteContributionStore{
+import '../pages/home.tag'
+import '../pages/projects.tag'
+ 
+ class RouteContributionStore{
 
   constructor(){
     var self = this;
