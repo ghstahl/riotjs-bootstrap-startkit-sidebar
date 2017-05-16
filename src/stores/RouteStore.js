@@ -3,20 +3,22 @@ class RouteStore{
   constructor(){
     var self = this;
     self.name = "RouteStore";
+    self.namespace = self.name+':';
+    riot.EVT.routeStore ={
+        in:{
+          routeCatchallReset:self.namespace+'route-catchall-reset'
+        },
+        out:{
+          
+        }
+    }
+
     riot.observable(self);
     self.bindEvents();
-    self._initializeViewSet();
+  
   }
 
-  _initializeViewSet(){
-    var self = this;
-    self._viewsSet = new Set();
-    var s = self._viewsSet;
-    s.add('home');
-    s.add('projects');
-    self.views = Array.from(s);
-    self.defaultRoute = '/main/home/';
-  }
+ 
   bindEvents(){
     var self = this;
 
@@ -24,26 +26,11 @@ class RouteStore{
       console.log(self.name,riot.EVT.contributeRoutes,r)
      r( ()=>{
         console.log('route handler of /  ' )
-        riot.control.trigger(riot.EVT.routeDispatch,self.defaultRoute);
+        riot.control.trigger(riot.EVT.routeDispatch,riot.state.route.defaultRoute);
       }) 
     });
 
-    self.on(riot.EVT.contributeRoutes, (r) => {
-      console.log(self.name,riot.EVT.contributeRoutes,r)
-      r('/main/*', (name)=>{
-        console.log('route handler of /main/' + name)
-        var view = name;
-        if(self.views.indexOf(view) === -1){
-          riot.control.trigger(riot.EVT.routeDispatch,self.defaultRoute);
-        }else{
-          riot.control.trigger(riot.EVT.loadView,view);
-        }
-        });
-      r('/main', ()=>{
-        console.log('route handler of /main  ')
-        riot.control.trigger(riot.EVT.routeDispatch,self.defaultRoute);
-      });
-    });
+    
 
     self.on(riot.EVT.routeDispatch, (route) => {
       console.log(self.name,riot.EVT.routeDispatch,route)
@@ -51,8 +38,8 @@ class RouteStore{
       self.trigger(riot.EVT.routeDispatchAck, route);
     });
 
-    self.on('route-catchall-reset', () => {
-      console.log(self.name,'route-catchall-reset')
+    self.on(riot.EVT.routeStore.in.routeCatchallReset, () => {
+      console.log(self.name,riot.EVT.routeStore.in.routeCatchallReset)
       riot.router.resetCatchAll();
     });
 

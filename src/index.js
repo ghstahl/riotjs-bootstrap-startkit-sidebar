@@ -6,6 +6,9 @@ import route from 'riot-route'
 riot.route = route;
 riot.routeState = {};
 riot.state = {
+	route:{
+		defaultRoute:'/main/home/'
+	},
 	sidebar:{
 		touch:0,
 		items:[
@@ -35,6 +38,9 @@ riot.control.addStore(new RiotControlStore());
 
 import RouteStore 					from './stores/RouteStore.js';
 riot.control.addStore(new RouteStore());
+
+import RouteContributionStore 		from './stores/route-contribution-store.js';
+riot.control.addStore(new RouteContributionStore());
 
 import DynamicJsCssLoaderStore 		from './stores/dynamic-jscss-loader-store.js';
 riot.control.addStore(new DynamicJsCssLoaderStore());

@@ -9,15 +9,18 @@ import RiotControl from 'riotcontrol';
 
 
 function FetchStore() {
-    riot.observable(this) // Riot provides our event emitter.
-
     var self = this
-
-    self.fetchException = null;
+    self.name = 'FetchStore';
+    self.namespace = self.name+':';
     riot.EVT.fetchStore ={
-        in:{fetch:'fetch'},
+        in:{fetch:self.namespace+'fetch'},
         out:{}
     }
+
+    riot.observable(self) // Riot provides our event emitter.
+
+    self.fetchException = null;
+   
     /**
      * Reset tag attributes to hide the errors and cleaning the results list
      */
