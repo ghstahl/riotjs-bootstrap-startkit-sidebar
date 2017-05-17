@@ -25,7 +25,19 @@ class RouteStore{
 
     self.on(riot.EVT.contributeCatchAllRoute, (r) => {
       console.log(self.name,riot.EVT.contributeRoutes,r)
-     r( ()=>{
+      if(riot.state.componentLoaderState && riot.state.componentLoaderState.components){
+        for(let item of riot.state.componentLoaderState.components){
+          var component = item[1];
+          if(component.state.loaded == false){
+      			r( component.routeLoad.route,()=>{
+      			        console.log('catchall route handler of:',component.routeLoad.route,path )
+                    var q = riot.route.query();
+                    var path = riot.route.currentPath();
+                  }) 
+          }
+        }
+      }
+      r( ()=>{
         console.log('route handler of /  ' )
         riot.control.trigger(riot.EVT.routeStore.in.routeDispatch,riot.state.route.defaultRoute);
       }) 
@@ -36,6 +48,7 @@ class RouteStore{
     self.on(riot.EVT.routeStore.in.routeDispatch, (route) => {
       console.log(self.name,riot.EVT.routeStore.in.routeDispatch,route)
       riot.route(route)
+      riot.routeState.route = route;
       self.trigger(riot.EVT.routeStore.in.routeDispatchAck, route);
     });
 

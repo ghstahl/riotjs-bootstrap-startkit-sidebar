@@ -97,7 +97,12 @@ var testComponent = {
             }
           ]
         },
-        state:{loaded:false}
+        routeLoad:{
+        	route:'/my-component-page..'
+        },
+        state:{
+        	loaded:false
+        }
       };
 
 riot.control.trigger('init-component-loader-store');

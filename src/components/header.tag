@@ -20,7 +20,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li each={ navItems } 
           onclick={parent.route}
-          class={ active : parent.routeState.view === this.view }>
+          class={ active : parent.routeState.route === this.route }>
           <a>{ this.title }</a>
         </li>
       </ul>
@@ -33,8 +33,8 @@
   self.routeState = riot.routeState;
 
   self.navItems = [
-    { title : 'Home', view : '/main/home'},
-    { title : 'Projects', view : '/main/projects' }
+    { title : 'Home', route : '/main/home'},
+    { title : 'Projects', route : '/main/projects' }
   ];
 
   self.on('mount', () => {
@@ -52,7 +52,7 @@
   }
 
   self.route = (evt) => {
-    riot.control.trigger('riot-route-dispatch',evt.item.view);
+    riot.control.trigger('riot-route-dispatch',evt.item.route);
   };
 
 </script>
