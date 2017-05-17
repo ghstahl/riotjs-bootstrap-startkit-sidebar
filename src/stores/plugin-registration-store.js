@@ -57,7 +57,7 @@ class PluginRegistrationStore{
         {
           state:false,
           registration:registration,
-          error:'plugin already registered!'
+          error:'plugin already unregistered!'
         });
     }else{
       // reverse unload
@@ -69,7 +69,7 @@ class PluginRegistrationStore{
       for(var i=0; i<foundRegistration.stores.length; i++) {
         riot.control.trigger(riot.EVT.riotControlStore.in.riotContolRemoveStore,foundRegistration.stores[i].name);
       }
-    
+
       this._removeRegistration(registration.name);
       this.trigger('plugin-unregistration-ack', 
         {

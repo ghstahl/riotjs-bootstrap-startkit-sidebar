@@ -44,6 +44,7 @@ class ComponentLoaderStore {
             loadDynamicComponent: 'load-dynamic-component',
             unloadDynamicComponent: 'unload-dynamic-component',
             componentLoadComplete: 'component-load-complete',
+            componentUnloadComplete:'component-unload-complete',
             componentLoaderStoreLocalStorageResult: 'component-loader-store-local-storage-result'
           },
           out: {
@@ -144,7 +145,8 @@ class ComponentLoaderStore {
     _onUnloadExternalJsCssAck(result) {
         var self = this;
         console.log(self.name, self.wellKnownEvents.unloadExternalJsCssAck, result)
-        var component = self._findComponent(result.component.key);
+        var key = result.component.key;
+        var component = self._findComponent(key);
         if (component != null) {
             // this is ours
             if (result.state === true) {
@@ -152,6 +154,7 @@ class ComponentLoaderStore {
                     riot.control.trigger(triggerItem.event, triggerItem.data);
                 }
                 component.state.loaded = false;
+                riot.control.trigger(riot.EVT.componentLoaderStore.in.componentUnloadComplete,key);
                 self._commitToLocalStorage();
             } else {
                 console.error(result.error);
@@ -164,6 +167,11 @@ class ComponentLoaderStore {
         var comp = self._findComponent(component.key);
         if (comp == null) {
             self._addComponent(component);
+            
+            if (self._allLoadedCompleteCheck() == true) {
+                // need to trigger a load complete just on a simple add so that auto route loading can work
+                riot.control.trigger(riot.EVT.componentLoaderStore.out.allComponentsLoadComplete);
+            }
         }
     }
 
@@ -228,6 +236,18 @@ class ComponentLoaderStore {
             }
         }
     }
+    _onComponentUnloadComplete(key) {
+        var self = this;
+        console.log(self.name, riot.EVT.componentLoaderStore.in.componentUnloadComplete, key)
+        var component = self._findComponent(key);
+        if (component != null) {
+            component.state.loadedComplete = false;
+            riot.control.trigger(riot.EVT.componentLoaderStore.out.allComponentsLoadComplete);
+        }
+    }
+
+    
+
     bindEvents() {
         var self = this;
         self.on(riot.EVT.componentLoaderStore.in.initComponentLoaderStore, self._onInitComponentLoaderStore);
@@ -238,6 +258,7 @@ class ComponentLoaderStore {
         self.on(self.wellKnownEvents.unloadExternalJsCssAck, self._onUnloadExternalJsCssAck);
         self.on(riot.EVT.componentLoaderStore.in.componentLoaderStoreLocalStorageResult, self._onLocalStorageResult);
         self.on(riot.EVT.componentLoaderStore.in.componentLoadComplete, self._onComponentLoadComplete)
+        self.on(riot.EVT.componentLoaderStore.in.componentUnloadComplete, self._onComponentUnloadComplete)
     }
 }
 export default ComponentLoaderStore;

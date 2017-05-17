@@ -16,7 +16,7 @@ class RouteStore{
 
     riot.observable(self);
     self.bindEvents();
-  
+    self.postResetRoute = null;
   }
 
  
@@ -33,6 +33,8 @@ class RouteStore{
       			        console.log('catchall route handler of:',component.routeLoad.route,path )
                     var q = riot.route.query();
                     var path = riot.route.currentPath();
+                    self.postResetRoute = path;
+                    riot.control.trigger('load-dynamic-component',component.key);  
                   }) 
           }
         }
@@ -41,12 +43,21 @@ class RouteStore{
         console.log('route handler of /  ' )
         riot.control.trigger(riot.EVT.routeStore.in.routeDispatch,riot.state.route.defaultRoute);
       }) 
+      if(self.postResetRoute != null){
+        var postResetRoute = self.postResetRoute;
+        self.postResetRoute = null;
+        riot.control.trigger('riot-route-dispatch',postResetRoute,true);
+      }
+
     });
 
     
 
-    self.on(riot.EVT.routeStore.in.routeDispatch, (route) => {
+    self.on(riot.EVT.routeStore.in.routeDispatch, (route, force) => {
       console.log(self.name,riot.EVT.routeStore.in.routeDispatch,route)
+      if(force){
+        riot.route("")
+      }
       riot.route(route)
       riot.routeState.route = route;
       self.trigger(riot.EVT.routeStore.in.routeDispatchAck, route);
