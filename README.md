@@ -18,7 +18,7 @@ This edition of the starterkit further adds:
 
 * [jQuery](https://github.com/jquery/jquery)
 * [Bootstrap](https://github.com/twbs/bootstrap)
-
+* [Bootswatch](http://bootswatch.com/)
 
 ## Get the kit
 
