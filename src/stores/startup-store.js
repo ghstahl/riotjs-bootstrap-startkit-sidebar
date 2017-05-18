@@ -1,16 +1,6 @@
 import '../app.tag';
 import Router     from '../router.js';
 
-var currentPath = '';
-function DEFAULT_PARSER(path) {
-  currentPath = path;
-  return path.split(/[/?#]/)
-}
-function getCurrentPath() {
-  return currentPath;
-}
-
-
 class StartupStore{
 
   constructor(){
@@ -38,8 +28,7 @@ class StartupStore{
         self._startupComplete = true;
         riot.mount('app');
         riot.router = new Router();
-        riot.route.parser(DEFAULT_PARSER,null);
-        riot.route.currentPath = getCurrentPath;
+
         riot.route.start(true);
       }
       riot.control.trigger(riot.EVT.startupStore.out.routeCatchallReset);

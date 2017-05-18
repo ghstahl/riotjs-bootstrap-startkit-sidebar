@@ -22,6 +22,9 @@ import RiotControl from 'riotcontrol';
 riot.control = RiotControl;
 window.riot = riot;
 
+import RiotRouteExtension            	from './extensions/riot-route-extension.js';
+new RiotRouteExtension();
+
 // Add the mixings
 ////////////////////////////////////////////////////////
 import OptsMixin                            from './mixins/opts-mixin.js'
