@@ -55,10 +55,19 @@ class RouteStore{
 
     self.on(riot.EVT.routeStore.in.routeDispatch, (route, force) => {
       console.log(self.name,riot.EVT.routeStore.in.routeDispatch,route)
+      
       if(force){
-        riot.route("")
+        var current = riot.route.currentPath();
+        if(current == route){
+          riot.route.exec()
+        }else{
+          riot.route(route)
+        }
       }
-      riot.route(route)
+      else{
+        riot.route(route)
+      }
+      
       riot.routeState.route = route;
       self.trigger(riot.EVT.routeStore.in.routeDispatchAck, route);
     });

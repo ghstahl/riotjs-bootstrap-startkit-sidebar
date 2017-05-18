@@ -36,11 +36,8 @@ class RouteContributionStore{
           riot.control.trigger(riot.EVT.loadView,'mpc-'+view);
         }
       });
-
-      
-
-      r('/my-component-page', ()=>{
-        console.log('route handler of /my-component-page' )
+      r('/my-component-page..', ()=>{
+        console.log('route handler of /my-component-page..' )
         riot.control.trigger(riot.EVT.routeStore.in.routeDispatch,self.defaultRoute);
       });
     });
