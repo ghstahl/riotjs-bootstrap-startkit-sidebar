@@ -23,7 +23,7 @@ This edition of the starterkit further adds:
 ## Get the kit
 
 ```
-$ git clone https://github.com/calben/riotjs-bootstrap-startkit && cd riotjs-startkit
+$ git clone https://github.com/ghstahl/riotjs-bootstrap3-startkit-sidebar.git && cd riotjs-bootstrap3-startkit-sidebar
 ```
 
 ## Installation
@@ -53,9 +53,11 @@ $ npm run build
 ## Bootswatch Theming
 
 The index.js can be modified to use any of the existing themes provided by [Bootswatch](https://github.com/thomaspark/bootswatch/).
-Change line 01 from `import './css/vanilla/bootstrap.css';` to `import './css/<bootswatchthemename>/bootstrap.css';` to do this.
+Change line 01 from `import 'bootswatch/slate/bootstrap.css';` to `import 'bootswatch/{bootswatch-theme-name}/bootstrap.css';` to do this.
 Save and preview the page immediately with the live reload feature.
 
 ## Thanks
 
-Thanks to [RiotJS Startkit](https://github.com/wbkd/riotjs-startkit) for their original Startkit initiative!
+Thanks to [RiotJS Bootstrap Startkit](https://github.com/calben/riotjs-bootstrap-startkit) for their original Startkit initiative!
+
+
