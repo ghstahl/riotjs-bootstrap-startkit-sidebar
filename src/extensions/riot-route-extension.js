@@ -4,16 +4,19 @@ class RiotRouteExtension{
     self.name = 'RiotRouteExtension';
     self.namespace = self.name+':';
     self.currentPath = '';
-    riot.route.parser(self.DEFAULT_PARSER,null);
-    riot.route.currentPath = self.getCurrentPath;
+    self._bind();
   }
- 
-  DEFAULT_PARSER(path) {
-    self.currentPath = path;
-    return path.split(/[/?#]/)
-  }
-  getCurrentPath() {
-    return self.currentPath;
+  
+  _bind(){
+    var self = this;
+    riot.route.parser((path)=>{
+      self.currentPath = path;
+      return path.split(/[/?#]/)
+    },null);
+
+    riot.route.currentPath = ()=>{
+      return self.currentPath;
+    };
   }
 }
 export default RiotRouteExtension;

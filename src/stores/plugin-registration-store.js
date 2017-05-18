@@ -22,18 +22,20 @@ riot.control.trigger('plugin-registration',registerRecord);
 class PluginRegistrationStore{
 
   constructor(){
-    riot.observable(this);
-    this.items = [];
-    this.bindEvents();
-    this._registeredPlugins = new Set();
+    var self = this;
+    riot.observable(self);
+    self.bindEvents();
+    self._registeredPlugins = new Set();
   }
   bindEvents(){
-    this.on('plugin-registration', this._registerPlugin);
-    this.on('plugin-unregistration', this._unregisterPlugin);
+    var self = this;
+    self.on('plugin-registration', self._registerPlugin);
+    self.on('plugin-unregistration', self._unregisterPlugin);
   }
 
   _findRegistration(registrationName){
-    var mySet = this._registeredPlugins;
+    var self = this;
+    var mySet = self._registeredPlugins;
     for (let item of mySet) {
         if(item.name === registrationName)
           return item;
@@ -41,7 +43,8 @@ class PluginRegistrationStore{
     return null;
   }
   _removeRegistration(registrationName){
-    var mySet = this._registeredPlugins;
+    var self = this;
+    var mySet = self._registeredPlugins;
     for (let item of mySet) {
         if(item.name === registrationName){
           mySet.delete(item);
@@ -51,9 +54,10 @@ class PluginRegistrationStore{
     return null;
   }
   _unregisterPlugin(registration){
-    var foundRegistration = this._findRegistration(registration.name);
+    var self = this;
+    var foundRegistration = self._findRegistration(registration.name);
     if(foundRegistration === null){
-      this.trigger('plugin-unregistration-ack', 
+      self.trigger('plugin-unregistration-ack', 
         {
           state:false,
           registration:registration,
@@ -70,8 +74,8 @@ class PluginRegistrationStore{
         riot.control.trigger(riot.EVT.riotControlStore.in.riotContolRemoveStore,foundRegistration.stores[i].name);
       }
 
-      this._removeRegistration(registration.name);
-      this.trigger('plugin-unregistration-ack', 
+      self._removeRegistration(registration.name);
+      self.trigger('plugin-unregistration-ack', 
         {
           state:true,
           registration:registration
@@ -80,10 +84,11 @@ class PluginRegistrationStore{
   }
 
   _registerPlugin(registration){
-    var foundRegistration = this._findRegistration(registration.name);
+    var self = this;
+    var foundRegistration = self._findRegistration(registration.name);
    
     if(foundRegistration === null){
-      this._registeredPlugins.add(registration);
+      self._registeredPlugins.add(registration);
 
       // 1. Add the stores
       for(var i=0; i<registration.stores.length; i++) {
@@ -94,9 +99,9 @@ class PluginRegistrationStore{
       for(var i=0; i<registration.postLoadEvents.length; i++) {
         riot.control.trigger(registration.postLoadEvents[i].event,registration.postLoadEvents[i].data);
       }
-      this.trigger('plugin-registration-ack', {state:true,registration:registration});
+      self.trigger('plugin-registration-ack', {state:true,registration:registration});
     }else{
-      this.trigger('plugin-registration-ack', {state:false,registration:registration,error:'plugin already registered!'});
+      self.trigger('plugin-registration-ack', {state:false,registration:registration,error:'plugin already registered!'});
     }
   }
 }
