@@ -2,6 +2,18 @@
 
 * [live Demo](https://ghstahl.github.io/riot1/)
 
+## Features 
+This is a riotjs app that loads other riotjs apps where the child apps could be more specifically considered plugins.
+Other projects I have seen use terms like 'code spliting', 'componentization', etc.
+
+Its a plugin, because the plugin has to obey some rules of the host and not carry code that that host provides.
+
+In this example, you will notice the plugin bundle.js does not contain riot, bootstrap, or jquery amongst other libraries that are already present in the host app.  Its quite small, and the child plugin considers itself autonomous.
+
+The plugin is selfcontained [here](riotjs-partial-tag) and I have prebuilt and checked it in for demo use.  
+The plugin bundle is [here](build/partial/typicode_component)
+
+## Housekeeping 
 Like the original Riotjs Starterkit, this is based on:
 
 * [Riot](https://muut.com/riotjs/)
