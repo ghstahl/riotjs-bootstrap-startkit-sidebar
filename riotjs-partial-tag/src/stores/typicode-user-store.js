@@ -52,26 +52,49 @@ function TypicodeUserStore() {
         self.fetchException = null;
     }
 
-    self.onUsersResult = (data) =>{
-        console.log(riot.EVT.typicodeUserStore.in.typicodeUsersFetchResult,data);
+    self.onUsersResult = (data,myTrigger) =>{
+        console.log(riot.EVT.typicodeUserStore.in.typicodeUsersFetchResult,data,myTrigger);
         riot.control.trigger(riot.EVT.localStorageStore.in.localstorageSet,{key:user_cache,data:data});
         self.trigger(riot.EVT.typicodeUserStore.out.typicodeUsersChanged, data)
+        if(myTrigger.query){
+            var query = myTrigger.query;
+            if(query.type =='riotControlTrigger'){
+               riot.control.trigger(query.evt,query.query); 
+            }
+        }
     }
 
-    self.on(riot.EVT.typicodeUserStore.in.typicodeUsersFetch, function() {
+    self.on(riot.EVT.typicodeUserStore.in.typicodeUsersFetch, function(query) {
         console.log(riot.EVT.typicodeUserStore.in.typicodeUsersFetch);
         var url = 'https://jsonplaceholder.typicode.com/users';
-        riot.control.trigger(riot.EVT.fetchStore.in.fetch,url,null,{name:riot.EVT.typicodeUserStore.in.typicodeUsersFetchResult});
+        var trigger = {
+            name:riot.EVT.typicodeUserStore.in.typicodeUsersFetchResult
+        };
+        if(query){
+            trigger.query = query
+        }
+
+        riot.control.trigger(riot.EVT.fetchStore.in.fetch,url,null,trigger);
     })
 
     self.on(riot.EVT.typicodeUserStore.in.typicodeUserFetch, function(query) {
         console.log(riot.EVT.typicodeUserStore.in.typicodeUserFetch);
         var restoredSession = JSON.parse(localStorage.getItem(user_cache));
-        var result = restoredSession.filter(function( obj ) {
-            return obj.id == query.id;
-        });
-        if(result && result.length>0){
-            self.trigger(riot.EVT.typicodeUserStore.out.typicodeUserChanged,result[0]);
+        if(restoredSession){
+            var result = restoredSession.filter(function( obj ) {
+                return obj.id == query.id;
+            });
+            if(result && result.length>0){
+                self.trigger(riot.EVT.typicodeUserStore.out.typicodeUserChanged,result[0]);
+            }
+        }else{
+            // need to fetch.
+            var myQuery = {
+                type:'riotControlTrigger',
+                evt:riot.EVT.typicodeUserStore.in.typicodeUserFetch,
+                query:query
+            }
+            riot.control.trigger(riot.EVT.typicodeUserStore.in.typicodeUsersFetch,myQuery);
         }
     })
 

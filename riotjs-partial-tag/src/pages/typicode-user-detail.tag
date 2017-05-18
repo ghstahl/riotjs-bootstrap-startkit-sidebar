@@ -111,17 +111,17 @@
         self.update();
     }
 
-    self.on('unmount', function() {
-        console.log('on unmount:');
-        riot.control.off(riot.EVT.typicodeUserStore.out.typicodeUserChanged, self.onUserChanged);
-
-    });
-
     self.on('mount', function() {
         var q = riot.route.query();
         console.log('on mount: typicode-user-detail',q);
         riot.control.on(riot.EVT.typicodeUserStore.out.typicodeUserChanged, self.onUserChanged);
+        
         riot.control.trigger(riot.EVT.typicodeUserStore.in.typicodeUserFetch, { id: q.id });
+    });
+
+    self.on('unmount', function() {
+        console.log('on unmount:');
+        riot.control.off(riot.EVT.typicodeUserStore.out.typicodeUserChanged, self.onUserChanged);
     });
 
 </script>

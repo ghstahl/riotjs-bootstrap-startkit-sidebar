@@ -73,6 +73,8 @@ function FetchStore() {
             }
         }
 
+        let myTrigger = JSON.parse(JSON.stringify(trigger));
+
         fetch(input,init).then(function (response) {
             if(response.status == 204){
                 return null;
@@ -81,17 +83,11 @@ function FetchStore() {
         }).then(function (data) {
             console.log(data);
             riot.control.trigger(riot.EVT.fetchStore.out.inprogressDone);
-            let myTrigger = JSON.parse(JSON.stringify(trigger));
-
-            if(myTrigger.query){
-                self.trigger(trigger.name,myTrigger.query,data);
-            }
-            else{
-                self.trigger(trigger.name,data);
-            }
+            self.trigger(myTrigger.name,data,myTrigger);
         }).catch(function(ex) {
             console.log('fetch failed', ex)
             self.error = ex;
+            //todo: event out error to mytrigger
             riot.control.trigger(riot.EVT.fetchStore.out.inprogressDone);
         });
     }
