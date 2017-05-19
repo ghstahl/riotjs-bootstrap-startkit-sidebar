@@ -8,16 +8,16 @@
     "build": "npm-run-all bundle dist",
     "serve": "webpack-dev-server --hot",
     "dev": "npm-run-all serve",
-    "dist":"cp -R ./build/* ../build/partial/typicode_component/"
+    "dist": "cp -R ./build/* ../build/partial/typicode_component/"
   },
   "author": "github.com/calben",
   "license": "MIT",
   "dependencies": {
     "file-loader": "^0.11.1",
-    "jquery": "^2.1.4",
+    "jquery": "^2.2.4",
     "normalize.css": "^5.0.0",
     "npm-run-all": "^3.1.2",
-    "riot": "^3.4.0",
+    "riot": "^3.5.0",
     "riot-route": "^3.1.1",
     "riotcontrol": "0.0.3",
     "url-loader": "^0.5.7"
