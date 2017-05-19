@@ -18,9 +18,9 @@ class StartupStore{
 
     self._startupComplete = false;
     riot.observable(self);
-    self.bindEvents();
+    self._bindEvents();
   }
-  bindEvents(){
+  _bindEvents(){
     var self = this;
     self.on(riot.EVT.startupStore.in.allComponentsLoadComplete, () => {
       console.log(self.name,riot.EVT.startupStore.in.allComponentsLoadComplete);

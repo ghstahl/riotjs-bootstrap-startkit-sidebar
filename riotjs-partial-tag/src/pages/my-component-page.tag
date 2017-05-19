@@ -37,14 +37,14 @@
 <script>
 	var self = this;
 	self.error = false;
+  self.results = [];
+  /**
+   * Reset tag attributes to hide the errors and cleaning the results list
+   */
+  self.resetData = function() {
     self.results = [];
-    /**
-     * Reset tag attributes to hide the errors and cleaning the results list
-     */
-    self.resetData = function() {
-      self.results = [];
-      self.error = false;
-    }
+    self.error = false;
+  }
 
 	self.on('mount', () => {
       console.log('typicode-users mount')

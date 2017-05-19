@@ -36,15 +36,20 @@ import '../components/itemlist.tag';
   <div class="progress-bar" style="width: {times[8]}%"></div>
 </div>
 
+<div>
+	<a href="#" class="btn {buttonClasses[buttonS[0]]}">Default</a>
+	<a href="#" class="btn {buttonClasses[buttonS[1]]}">Primary</a>
+	<a href="#" class="btn {buttonClasses[buttonS[2]]}">Success</a>
+	<a href="#" class="btn {buttonClasses[buttonS[3]]}">Info</a>
+	<a href="#" class="btn {buttonClasses[buttonS[4]]}">Warning</a>
+	<a href="#" class="btn {buttonClasses[buttonS[5]]}">Danger</a>
+	<a href="#" class="btn {buttonClasses[buttonS[6]]}">Link</a>
+</div>
+<div class="spacer"></div>
+<div>
+	<a class="btn btn-default" onclick={this.generateAnError} >Generate An Error</a>
 
-<a href="#" class="btn {buttonClasses[buttonS[0]]}">Default</a>
-<a href="#" class="btn {buttonClasses[buttonS[1]]}">Primary</a>
-<a href="#" class="btn {buttonClasses[buttonS[2]]}">Success</a>
-<a href="#" class="btn {buttonClasses[buttonS[3]]}">Info</a>
-<a href="#" class="btn {buttonClasses[buttonS[4]]}">Warning</a>
-<a href="#" class="btn {buttonClasses[buttonS[5]]}">Danger</a>
-<a href="#" class="btn {buttonClasses[buttonS[6]]}">Link</a>
-
+</div>
 
 <script>
 	var self = this;
@@ -95,6 +100,9 @@ import '../components/itemlist.tag';
     	clearInterval(self.timer)
     })
 
+	self.generateAnError = () => {
+  		riot.control.trigger('ErrorStore:error-catch-all',{code:'dancingLights-143523'});
+  	};
 </script>
 
 </home>

@@ -1,8 +1,8 @@
 import '../pages/home.tag'
 import '../pages/projects.tag'
- 
- class RouteContributionStore{
+import '../pages/error.tag'
 
+class RouteContributionStore{
   constructor(){
     var self = this;
     self.name = "RouteContributionStore";
@@ -32,10 +32,16 @@ import '../pages/projects.tag'
         }else{
           riot.control.trigger(riot.EVT.loadView,view);
         }
-        });
-      r('/main', ()=>{
-        console.log('route handler of /main  ')
+      });
+
+      r('/main..', ()=>{
+        console.log('route handler of /main')
         riot.control.trigger(riot.EVT.routeStore.in.routeDispatch,self.defaultRoute);
+      });
+
+      r('/error..', ()=>{
+        console.log('route handler of /error..')
+        riot.control.trigger(riot.EVT.loadView,'error');
       });
     });
 

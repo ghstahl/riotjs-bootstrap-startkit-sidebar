@@ -6,6 +6,7 @@ import route from 'riot-route'
 riot.route = route;
 riot.routeState = {};
 riot.state = {
+	error:{code:'unknown'},
 	route:{
 		defaultRoute:'/main/home/'
 	},
@@ -44,6 +45,9 @@ riot.control.addStore(new RiotControlStore());
 
 import RouteStore 					from './stores/RouteStore.js';
 riot.control.addStore(new RouteStore());
+
+import ErrorStore            		from './stores/error-store.js';
+riot.control.addStore(new ErrorStore());
 
 import RouteContributionStore 		from './stores/route-contribution-store.js';
 riot.control.addStore(new RouteContributionStore());

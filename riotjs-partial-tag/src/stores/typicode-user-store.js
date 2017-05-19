@@ -54,7 +54,7 @@ function TypicodeUserStore() {
 
     self.onUsersResult = (result,myTrigger) =>{
         console.log(riot.EVT.typicodeUserStore.in.typicodeUsersFetchResult,result,myTrigger);
-        if(result.error == null){
+        if(result.error == null && result.response.ok && result.json){
             // good
             var data = result.json;
             riot.control.trigger(riot.EVT.localStorageStore.in.localstorageSet,{key:user_cache,data:data});
@@ -65,11 +65,10 @@ function TypicodeUserStore() {
                    riot.control.trigger(query.evt,query.query); 
                 }
             }
-
         }else{
             // Bad.. Wipe the local storage
             riot.control.trigger(riot.EVT.localStorageStore.in.localstorageRemove,{key:user_cache});
-
+            riot.control.trigger('ErrorStore:error-catch-all',{code:'typeicode-143523'});
         }
     }
 
