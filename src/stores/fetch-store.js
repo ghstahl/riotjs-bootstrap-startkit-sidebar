@@ -77,13 +77,32 @@ function FetchStore() {
 
         fetch(input,init).then(function (response) {
             if(response.status == 204){
-                return null;
+                var result = {
+                    response:response,
+                    error:'Fire the person that returns this 204 garbage!'
+                }
+                riot.control.trigger(riot.EVT.fetchStore.out.inprogressDone);
+                self.trigger(myTrigger.name,result,myTrigger);
             }
-            return response.json();
-        }).then(function (data) {
-            console.log(data);
-            riot.control.trigger(riot.EVT.fetchStore.out.inprogressDone);
-            self.trigger(myTrigger.name,data,myTrigger);
+            if(response.ok){
+                response.json().then((data)=>{
+                    console.log(data);
+                    var result = {
+                        json:data,
+                        response:response,
+                        error:null
+                    }
+                    riot.control.trigger(riot.EVT.fetchStore.out.inprogressDone);
+                    self.trigger(myTrigger.name,result,myTrigger);
+                });
+
+            }else{
+                var result = {
+                    response:response
+                }
+                riot.control.trigger(riot.EVT.fetchStore.out.inprogressDone);
+                self.trigger(myTrigger.name,result,myTrigger);
+            }
         }).catch(function(ex) {
             console.log('fetch failed', ex)
             self.error = ex;

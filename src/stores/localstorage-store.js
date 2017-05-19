@@ -62,8 +62,7 @@ function LocalStorageStore() {
 
     /*
      {
-     key:'myKey',
-     trigger:'myTrigger'
+     key:'myKey' 
      }
      */
     self.on(riot.EVT.localStorageStore.in.localstorageRemove, function(query) {

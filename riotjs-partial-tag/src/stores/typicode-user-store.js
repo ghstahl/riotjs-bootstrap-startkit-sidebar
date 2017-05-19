@@ -52,15 +52,24 @@ function TypicodeUserStore() {
         self.fetchException = null;
     }
 
-    self.onUsersResult = (data,myTrigger) =>{
-        console.log(riot.EVT.typicodeUserStore.in.typicodeUsersFetchResult,data,myTrigger);
-        riot.control.trigger(riot.EVT.localStorageStore.in.localstorageSet,{key:user_cache,data:data});
-        self.trigger(riot.EVT.typicodeUserStore.out.typicodeUsersChanged, data)
-        if(myTrigger.query){
-            var query = myTrigger.query;
-            if(query.type =='riotControlTrigger'){
-               riot.control.trigger(query.evt,query.query); 
+    self.onUsersResult = (result,myTrigger) =>{
+        console.log(riot.EVT.typicodeUserStore.in.typicodeUsersFetchResult,result,myTrigger);
+        if(result.error == null){
+            // good
+            var data = result.json;
+            riot.control.trigger(riot.EVT.localStorageStore.in.localstorageSet,{key:user_cache,data:data});
+            self.trigger(riot.EVT.typicodeUserStore.out.typicodeUsersChanged, data)
+            if(myTrigger.query){
+                var query = myTrigger.query;
+                if(query.type =='riotControlTrigger'){
+                   riot.control.trigger(query.evt,query.query); 
+                }
             }
+
+        }else{
+            // Bad.. Wipe the local storage
+            riot.control.trigger(riot.EVT.localStorageStore.in.localstorageRemove,{key:user_cache});
+
         }
     }
 
