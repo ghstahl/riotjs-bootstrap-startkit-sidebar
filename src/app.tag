@@ -25,6 +25,9 @@ import './components/loading-indicator.tag';
 <script>
  	var self = this;
 
+  self.on('before-mount', () => {
+      console.log('before-mount');
+    });
  	self.on('mount', () => {
       console.log(riot.EVT.app.out.appMount);
       riot.control.on(riot.EVT.app.out.appMount,self.onAppMount);

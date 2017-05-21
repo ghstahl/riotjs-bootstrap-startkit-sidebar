@@ -41,18 +41,19 @@ class ComponentLoaderStore {
           in : {
             initComponentLoaderStore: 'init-component-loader-store',
             addDynamicComponent: 'add-dynamic-component',
+            addDynamicComponents: 'add-dynamic-components',
             loadDynamicComponent: 'load-dynamic-component',
             unloadDynamicComponent: 'unload-dynamic-component',
             componentLoadComplete: 'component-load-complete',
-            componentUnloadComplete:'component-unload-complete',
-            componentLoaderStoreLocalStorageResult: 'component-loader-store-local-storage-result'
+            componentUnloadComplete:'component-unload-complete'
+             
           },
           out: {
             allComponentsLoadComplete: 'all-components-load-complete',
             componentLoaderStoreStateUpdated: 'component-loader-store-state-updated',
             loadExternalJsCss: riot.EVT.dynamicJsCssLoaderStore.in.loadExternalJsCss,
-            unloadExternalJsCss: riot.EVT.dynamicJsCssLoaderStore.in.unloadExternalJsCss,
-            localstorageGet:riot.EVT.localStorageStore.in.localstorageGet
+            unloadExternalJsCss: riot.EVT.dynamicJsCssLoaderStore.in.unloadExternalJsCss
+           
           }
         };
 
@@ -80,32 +81,13 @@ class ComponentLoaderStore {
         var self = this;
         console.log(self.name, riot.EVT.componentLoaderStore.in.initComponentLoaderStore)
 
-        riot.control.trigger(
-            riot.EVT.componentLoaderStore.out.localstorageGet, {
-                key: 'component-loader-store',
-                trigger: { event: riot.EVT.componentLoaderStore.in.componentLoaderStoreLocalStorageResult, riotControl: true }
-            });
     }
 
     _commitToState() {
         var self = this;
         var componentsArray = Array.from(self._components);
         self.state.components = new Map(componentsArray.map((i) => [i.key, i]));
-        self._commitToLocalStorage();
         self.trigger(riot.EVT.componentLoaderStore.out.componentLoaderStoreStateUpdated);
-
-    }
-    _commitToLocalStorage() {
-        var self = this;
-        var mySet = self._components;
-        var record = {
-            components: Array.from(mySet)
-        };
-        riot.control.trigger(riot.EVT.localStorageStore.in.localstorageSet, {
-            key: 'component-loader-store',
-            data: record
-        });
-
     }
     _addComponent(component) {
         var self = this;
@@ -135,7 +117,7 @@ class ComponentLoaderStore {
                     riot.control.trigger(triggerItem.event, triggerItem.data);
                 }
                 component.state.loaded = true;
-                self._commitToLocalStorage();
+                 
             } else {
                 console.error(result.error);
             }
@@ -155,7 +137,7 @@ class ComponentLoaderStore {
                 }
                 component.state.loaded = false;
                 riot.control.trigger(riot.EVT.componentLoaderStore.in.componentUnloadComplete,key);
-                self._commitToLocalStorage();
+                 
             } else {
                 console.error(result.error);
             }
@@ -173,6 +155,20 @@ class ComponentLoaderStore {
                 riot.control.trigger(riot.EVT.componentLoaderStore.out.allComponentsLoadComplete);
             }
         }
+    }
+    
+    _onAddDynamicComponents(components,ack) {
+        var self = this;
+        if(components){
+          console.log(self.name, riot.EVT.componentLoaderStore.in.addDynamicComponents, components)
+          for(let component of components){
+            var comp = self._findComponent(component.key);
+            if (comp == null) {
+                self._addComponent(component);
+            }
+          }
+        }
+        riot.control.trigger(ack.evt,ack);
     }
 
     _onLoadDynamicComponent(key) {
@@ -192,28 +188,6 @@ class ComponentLoaderStore {
         }
     }
 
-    _onLocalStorageResult(result) {
-        var self = this;
-        console.log(self.name, riot.EVT.componentLoaderStore.in.componentLoaderStoreLocalStorageResult, result)
-        if (result != null) {
-            for (let item of result.components) {
-                item.state.loadedComplete = false;
-            }
-            for (let item of result.components) {
-                self._onAddDynamicComponent(item);
-                if (item.state.loaded == true) {
-                    item.state.loaded = false;
-                    self._onLoadDynamicComponent(item.key);
-                }
-            }
-        }
-
-        // this is in case nobody needed to be loaded, but we had stored componenets that just
-        // needed to be added.
-        if (self._allLoadedCompleteCheck() == true) {
-            riot.control.trigger(riot.EVT.componentLoaderStore.out.allComponentsLoadComplete);
-        }
-    }
     _allLoadedCompleteCheck() {
         var self = this;
         var result = true;
@@ -253,10 +227,13 @@ class ComponentLoaderStore {
         self.on(riot.EVT.componentLoaderStore.in.initComponentLoaderStore, self._onInitComponentLoaderStore);
         self.on(riot.EVT.componentLoaderStore.in.loadDynamicComponent, self._onLoadDynamicComponent);
         self.on(riot.EVT.componentLoaderStore.in.unloadDynamicComponent, self._onUnloadDymanicComponent);
+
         self.on(riot.EVT.componentLoaderStore.in.addDynamicComponent, self._onAddDynamicComponent);
+        self.on(riot.EVT.componentLoaderStore.in.addDynamicComponents, self._onAddDynamicComponents);
+
+
         self.on(self.wellKnownEvents.loadExternalJsCssAck, self._onLoadExternalJsCssAck);
         self.on(self.wellKnownEvents.unloadExternalJsCssAck, self._onUnloadExternalJsCssAck);
-        self.on(riot.EVT.componentLoaderStore.in.componentLoaderStoreLocalStorageResult, self._onLocalStorageResult);
         self.on(riot.EVT.componentLoaderStore.in.componentLoadComplete, self._onComponentLoadComplete)
         self.on(riot.EVT.componentLoaderStore.in.componentUnloadComplete, self._onComponentUnloadComplete)
     }

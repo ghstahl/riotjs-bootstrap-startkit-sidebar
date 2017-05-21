@@ -1,7 +1,8 @@
 import 'bootswatch/slate/bootstrap.css';
 import "./css/index.css";
 import './event-helper';
-import route from 'riot-route'
+import './components/startup.tag';
+import route from 'riot-route';
 
 riot.route = route;
 riot.routeState = {};
@@ -113,7 +114,7 @@ var testComponent = {
       };
 
 riot.control.trigger('init-component-loader-store');
-riot.control.trigger('add-dynamic-component',testComponent);
+//riot.control.trigger('add-dynamic-component',testComponent);
 	
 //riot.mount('app');
 
@@ -134,9 +135,11 @@ riot.control.trigger('add-dynamic-component',testComponent);
 // 		Send the event to the store, and in my case I send it to what is basically a middleman dispatcher.  My 
 //      dispatcher forwards on the riot.EVT.finalMount.  Only one handler and only one time.
 ////////////////////////////////////////////////////////
-riot.control.trigger('riot-dispatch',riot.EVT.finalMount,'some data');
-riot.control.trigger('riot-dispatch','riot-route-dispatch-ack');
+//riot.control.trigger('riot-dispatch',riot.EVT.finalMount,'some data');
+//riot.control.trigger('riot-dispatch','riot-route-dispatch-ack');
+//riot.control.trigger(riot.EVT.startupStore.in.start);
 
+riot.mount('startup');
 
 
 

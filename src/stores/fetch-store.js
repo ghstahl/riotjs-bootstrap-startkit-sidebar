@@ -55,9 +55,15 @@ function FetchStore() {
             if(!init){
                 init = {}
             }
+
+            if(!init.credentials){
+                init.credentials = 'include'
+            }
+
             if(!init.headers){
                 init.headers = {}
             }
+
             if(!init.headers['Content-Type']){
                 init.headers['Content-Type'] = 'application/json'
             }
@@ -82,7 +88,7 @@ function FetchStore() {
                     error:'Fire the person that returns this 204 garbage!'
                 }
                 riot.control.trigger(riot.EVT.fetchStore.out.inprogressDone);
-                self.trigger(myTrigger.name,result,myTrigger);
+                riot.control.trigger(myTrigger.name,result,myTrigger);
             }
             if(response.ok){
                 response.json().then((data)=>{
@@ -93,7 +99,7 @@ function FetchStore() {
                         error:null
                     }
                     riot.control.trigger(riot.EVT.fetchStore.out.inprogressDone);
-                    self.trigger(myTrigger.name,result,myTrigger);
+                    riot.control.trigger(myTrigger.name,result,myTrigger);
                 });
 
             }else{

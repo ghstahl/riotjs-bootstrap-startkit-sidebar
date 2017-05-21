@@ -5,8 +5,17 @@
   <title>YouVirt</title>
 </head>
 <body>
+<!--
+	<startup config={url to config}></startup>
+	the logic here is that startup runs first to fetch all data
+	The app then starts with everything in place.
+-->
+  <startup config="config.json"></startup>
+
+<!--
+	The app gets mounted only after the startup logic has completed
+-->
   <app></app>
-  
   <script src="bundle.js"></script>
 </body>
 </html>
