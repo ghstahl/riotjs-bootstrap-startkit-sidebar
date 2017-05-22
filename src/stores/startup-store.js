@@ -12,6 +12,7 @@ class StartupStore{
           start:self.namespace + 'start',
           fetchConfig:self.namespace + 'fetch-config',
           fetchConfigResult:self.namespace + 'fetch-config-result',
+          fetchConfigResult2:self.namespace + 'fetch-config-result2',
           componentsAdded:self.namespace + 'components-added',
           allComponentsLoadComplete:riot.EVT.componentLoaderStore.out.allComponentsLoadComplete
         },
@@ -43,7 +44,20 @@ class StartupStore{
         name:riot.EVT.startupStore.in.fetchConfigResult,
         ack:ack
       };
+      var trigger2 = {
+        name:riot.EVT.startupStore.in.fetchConfigResult2,
+        ack:ack
+      };
+      riot.control.trigger(riot.EVT.fetchStore.in.fetch,url,{method:'HEAD'},trigger2);
       riot.control.trigger(riot.EVT.fetchStore.in.fetch,url,null,trigger);
+    });
+
+
+
+    //------------------------------------------------------------
+    self.on(riot.EVT.startupStore.in.fetchConfigResult2, (result,myTrigger) => {
+      console.log(self.name,riot.EVT.startupStore.in.fetchConfigResult2,result,myTrigger);
+       
     });
 
     //------------------------------------------------------------

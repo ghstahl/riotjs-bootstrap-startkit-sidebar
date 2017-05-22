@@ -82,32 +82,25 @@ function FetchStore() {
         let myTrigger = JSON.parse(JSON.stringify(trigger));
 
         fetch(input,init).then(function (response) {
+            riot.control.trigger(riot.EVT.fetchStore.out.inprogressDone);
+            var result = {response:response};
             if(response.status == 204){
-                var result = {
-                    response:response,
-                    error:'Fire the person that returns this 204 garbage!'
-                }
-                riot.control.trigger(riot.EVT.fetchStore.out.inprogressDone);
+                result.error = 'Fire the person that returns this 204 garbage!';
                 riot.control.trigger(myTrigger.name,result,myTrigger);
             }
             if(response.ok){
-                response.json().then((data)=>{
-                    console.log(data);
-                    var result = {
-                        json:data,
-                        response:response,
-                        error:null
-                    }
-                    riot.control.trigger(riot.EVT.fetchStore.out.inprogressDone);
+                if(init.method == 'HEAD'){
                     riot.control.trigger(myTrigger.name,result,myTrigger);
-                });
-
-            }else{
-                var result = {
-                    response:response
+                }else{
+                    response.json().then((data)=>{
+                        console.log(data);
+                        result.json = data;
+                        result.error = null;
+                        riot.control.trigger(myTrigger.name,result,myTrigger);
+                    });
                 }
-                riot.control.trigger(riot.EVT.fetchStore.out.inprogressDone);
-                self.trigger(myTrigger.name,result,myTrigger);
+            }else{
+                riot.control.trigger(myTrigger.name,result,myTrigger);
             }
         }).catch(function(ex) {
             console.log('fetch failed', ex)
