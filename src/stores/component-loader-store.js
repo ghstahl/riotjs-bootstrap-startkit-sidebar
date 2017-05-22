@@ -39,7 +39,6 @@ class ComponentLoaderStore {
         self.namespace = self.name + ':';
         riot.EVT.componentLoaderStore = { 
           in : {
-            initComponentLoaderStore: 'init-component-loader-store',
             addDynamicComponent: 'add-dynamic-component',
             addDynamicComponents: 'add-dynamic-components',
             loadDynamicComponent: 'load-dynamic-component',
@@ -74,12 +73,6 @@ class ComponentLoaderStore {
         self.state = riot.state.componentLoaderState;
         riot.observable(self);
         self.bindEvents();
-
-    }
-
-    _onInitComponentLoaderStore() {
-        var self = this;
-        console.log(self.name, riot.EVT.componentLoaderStore.in.initComponentLoaderStore)
 
     }
 
@@ -224,7 +217,6 @@ class ComponentLoaderStore {
 
     bindEvents() {
         var self = this;
-        self.on(riot.EVT.componentLoaderStore.in.initComponentLoaderStore, self._onInitComponentLoaderStore);
         self.on(riot.EVT.componentLoaderStore.in.loadDynamicComponent, self._onLoadDynamicComponent);
         self.on(riot.EVT.componentLoaderStore.in.unloadDynamicComponent, self._onUnloadDymanicComponent);
 
@@ -234,6 +226,7 @@ class ComponentLoaderStore {
 
         self.on(self.wellKnownEvents.loadExternalJsCssAck, self._onLoadExternalJsCssAck);
         self.on(self.wellKnownEvents.unloadExternalJsCssAck, self._onUnloadExternalJsCssAck);
+
         self.on(riot.EVT.componentLoaderStore.in.componentLoadComplete, self._onComponentLoadComplete)
         self.on(riot.EVT.componentLoaderStore.in.componentUnloadComplete, self._onComponentUnloadComplete)
     }
