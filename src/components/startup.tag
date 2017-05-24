@@ -4,6 +4,10 @@
   if(self.opts.config){
     self.config = self.opts.config;
   }
+  self.nextTag = 'app';
+  if(self.opts.nextTag){
+    self.nextTag = self.opts.nextTag;
+  }
   self.loaded = false;
   self.on('mount', () => {
     riot.control.on('startup-tag-fetch-config-ack',
@@ -21,7 +25,7 @@
       self.loaded = true;
       riot.control.off('startup-tag-fetch-config-ack',
                     self.onStartupTagFetchConfigAck);
-      riot.control.trigger(riot.EVT.startupStore.in.start);
+      riot.control.trigger(riot.EVT.startupStore.in.start,self.nextTag);
     }
   }
     

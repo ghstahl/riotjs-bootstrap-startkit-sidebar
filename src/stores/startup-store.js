@@ -27,13 +27,26 @@ class StartupStore{
   }
   _bindEvents(){
     var self = this;
-    
+    self._done = false;
     //------------------------------------------------------------
-    self.on(riot.EVT.startupStore.in.start, () => {
-      console.log(self.name,riot.EVT.startupStore.in.start);
-      riot.mount('app');
-      riot.router = new Router();
-      riot.route.start(true);
+    self.on(riot.EVT.startupStore.in.start, (nextTag) => {
+      console.log(self.name,riot.EVT.startupStore.in.start,self._done,nextTag);
+      if(self._done){
+        return;
+      }
+
+      if(!nextTag){
+        nextTag = 'app';
+      }
+      riot.mount(nextTag);
+      if(nextTag == 'app'){
+        self._done = true;
+        // only when the nextTag is 'app' do we engage the router.
+        // 'app' is last
+        riot.router = new Router();
+        riot.route.start(true);
+      }
+      
     });
      
     //------------------------------------------------------------

@@ -10,8 +10,8 @@
 	the logic here is that startup runs first to fetch all data
 	The app then starts with everything in place.
 -->
-  <startup config="config.json"></startup>
-
+  <startup config="config.json" next-tag="my-next-startup"></startup>
+  <my-next-startup></my-next-startup>
 <!--
 	The app gets mounted only after the startup logic has completed
 -->

@@ -2,6 +2,8 @@ import 'bootswatch/slate/bootstrap.css';
 import "./css/index.css";
 import './event-helper';
 import './components/startup.tag';
+import './components/my-next-startup.tag';
+
 import route from 'riot-route';
 
 riot.route = route;
