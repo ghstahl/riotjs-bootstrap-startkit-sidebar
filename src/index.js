@@ -83,6 +83,8 @@ riot.control.addStore(new ItemStore());
 import SidebarStore 				from './stores/sidebar-store.js';
 riot.control.addStore(new SidebarStore());
 
+import NextConfigStore         from './stores/next-config-store.js';
+riot.control.addStore(new NextConfigStore());
 
 
 var testComponent = {
